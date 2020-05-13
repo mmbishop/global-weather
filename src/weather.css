@@ -1,0 +1,148 @@
+body {
+  background-color: #EEE;
+  margin: 0;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+#locations {
+  padding: 5px;
+}
+
+#locations div {
+  color: #FFF;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+@media screen and (max-width: 400px) {
+  #locations div {
+    height: 200px;
+  }
+  .weather, .city {
+    display: block !important;
+    float: none !important;
+    width: 100% !important;
+    text-align: center !important;
+    padding: 0 !important;
+  }
+  .city {
+    padding: 35px 0 10px 0 !important;
+  }
+  .city span {
+    font-size: 10pt !important;
+  }
+  .weather {
+    padding: 0 0 0 28px !important;
+  }
+}
+.hot, .warm, .cool, .cold, .frigid {
+  border-bottom: rgba(0, 0, 0, 0.1) 2px solid;
+  border-left: rgba(0, 0, 0, 0.1) 2px solid;
+  height: 140px;
+}
+.hot {
+  background-color: #A32929;
+}
+.warm {
+  background-color: #A36629;
+}
+.cold {
+  background-color: #1F5C7A;
+}
+.cool {
+  background-color: #5C99D6;
+}
+.frigid {
+  background-color: #143352;
+}
+.city, .weather {
+  display: inline-block;
+  float: left;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.city {
+  width: 60%;
+  font-size: 20pt;
+  padding: 33px 0 0 35px;
+}
+.city span {
+  display: block;
+  font-size: 14pt;
+  opacity: 0.5;
+  font-weight: 200;
+}
+.weather {
+  width: 40%;
+  text-align: right;
+  font-size: 50pt;
+  padding: 20px 30px 0 0;
+}
+.weather span {
+  font-size: 18pt;
+  line-height: 10pt;
+  vertical-align: super;
+  padding: 0 0 0 5px;
+  opacity: 0.5;
+}
+.add-city {
+  padding: 35px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: white;
+}
+.add-city input {
+  outline: none;
+  padding: 10px;
+  width: 100%;
+  background-color: transparent;
+  border: 0;
+  border-bottom: rgba(0, 0, 0, 0.3) 3px solid;
+  font-size: 15pt;
+  color: rgba(0, 0, 0, 0.5);
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.details {
+  font-size: 12pt;
+  float: right;
+  padding: 0 65px 0 0;
+  position: relative;
+  top: -6px;
+}
+
+.close {
+  position: absolute;
+  top: 0px;
+  left: 5px;
+  color: white;
+}
+
+.settings-icon {
+  position: relative;
+  top: 25px;
+  float: right;
+}
+
+#settings {
+  float: none !important;
+}
+
+#settings table {
+  border: 0;
+}
+
+#settings span {
+  font-weight: bold;
+}
+
+#settings label {
+  font-weight: normal;
+}
+
+#settings-ok {
+  text-align: center;
+  float: none !important;
+}
