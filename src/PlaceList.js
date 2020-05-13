@@ -28,9 +28,7 @@ export class PlaceList extends React.Component {
         this.setState({
             places: this.state.places.concat(
                 <Place key={this.generateKey(place)} name={place.name} adminLevel1={place.adminLevel1} country={place.country}
-                       temperature={place.temperature}
-                       conditions={place.conditions} humidity={place.humidity} windDirection={place.windDirection}
-                       windSpeed={place.windSpeed} onPlaceRemoved={() => this.handlePlaceRemoved(place.name)}/>)
+                    latitude={place.latitude} longitude={place.longitude} onPlaceRemoved={() => this.handlePlaceRemoved(place.name)}/>)
         });
     }
 

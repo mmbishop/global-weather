@@ -2,7 +2,6 @@ import React from "react";
 import {Container} from "react-bootstrap";
 import {SearchAndSettings} from "./SearchAndSettings";
 import {PlaceList} from "./PlaceList";
-import {WeatherService} from "./WeatherService";
 import {PlaceService} from "./PlaceService";
 import ls from 'local-storage';
 
@@ -15,23 +14,16 @@ export class WeatherUI extends React.Component {
             this.placeListRef = element;
         }
         this.findPlace = this.findPlace.bind(this);
-        this.weatherCallback = this.weatherCallback.bind(this);
         this.placeCallback = this.placeCallback.bind(this);
         this.handlePlaceRemoved = this.handlePlaceRemoved.bind(this);
-        this.weatherService = new WeatherService();
         this.placeService = new PlaceService();
     }
 
     placeCallback(placeData) {
-        this.weatherService.getWeather(placeData.lat, placeData.lng, placeData, this.weatherCallback);
-    }
-
-    weatherCallback(weatherData) {
-        this.placeListRef.addPlace({name: weatherData.placeData.name, adminLevel1: weatherData.placeData.adminLevel1, country: weatherData.placeData.country,
-            temperature: weatherData.temperature, humidity: weatherData.humidity, windDirection: weatherData.windDirection,
-            windSpeed: weatherData.windSpeed, conditions: weatherData.conditions});
-        if (! this.state.weatherPlaces.includes(weatherData.placeData.name)) {
-            let newWeatherPlacesState = [...this.state.weatherPlaces, weatherData.placeData.name];
+        this.placeListRef.addPlace({name: placeData.name, adminLevel1: placeData.adminLevel1, country: placeData.country,
+            latitude: placeData.lat, longitude: placeData.lng})
+        if (! this.state.weatherPlaces.includes(placeData.name)) {
+            let newWeatherPlacesState = [...this.state.weatherPlaces, placeData.name];
             this.setState({weatherPlaces: newWeatherPlacesState});
             ls.set('weatherPlaces', newWeatherPlacesState);
         }

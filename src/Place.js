@@ -4,6 +4,7 @@ import {PlaceName} from "./PlaceName";
 import {Temperature} from "./Temperature";
 import {Conditions} from "./Conditions";
 import {PlaceRemoveButton} from "./PlaceRemoveButton";
+import {WeatherService} from "./WeatherService";
 
 export class Place extends React.Component {
 
@@ -13,11 +14,8 @@ export class Place extends React.Component {
             name: props.name,
             adminLevel1: props.adminLevel1,
             country: props.country,
-            temperature: props.temperature,
-            conditions: props.conditions,
-            humidity: props.humidity,
-            windDirection: props.windDirection,
-            windSpeed: props.windSpeed
+            latitude: props.latitude,
+            longitude: props.longitude
         };
         this.setRemoveButtonRef = element => {
             this.removeButtonRef = element;
@@ -26,6 +24,9 @@ export class Place extends React.Component {
         this.handlePlaceRemoved = this.handlePlaceRemoved.bind(this);
         this.onMouseEnter = this.onMouseEnter.bind(this);
         this.onMouseLeave = this.onMouseLeave.bind(this);
+        this.weatherCallback = this.weatherCallback.bind(this);
+        this.weatherService = new WeatherService();
+        this.updateTimer = null;
     }
 
     setTemperature(temperature) {
@@ -48,8 +49,7 @@ export class Place extends React.Component {
         this.setState({windSpeed: windSpeed});
     }
 
-    getBackgroundColor() {
-        const temp = this.state.temperature;
+    getBackgroundColor(temp) {
         if (temp >= 90.0) {
             return "hot";
         }
@@ -62,7 +62,10 @@ export class Place extends React.Component {
         else if (temp >= 0.0 && temp < 40.0) {
             return "cold";
         }
-        return "frigid";
+        else if (temp < 0.0) {
+            return "frigid";
+        }
+        return "undefined-temp";
     }
 
     onMouseEnter = () => {
@@ -74,15 +77,29 @@ export class Place extends React.Component {
     }
 
     handlePlaceRemoved() {
+        clearInterval(this.updateTimer);
         this.onPlaceRemoved();
+    }
+
+    weatherCallback(weatherData) {
+        this.setState({weatherClassName: this.getBackgroundColor(weatherData.temperature),
+            temperature: <Temperature value={weatherData.temperature}/>,
+            conditions: <Conditions description={weatherData.conditions} humidity={weatherData.humidity} windDirection={weatherData.windDirection}
+                                    windSpeed={weatherData.windSpeed}/>});
+    }
+
+    componentDidMount() {
+        this.weatherService.getWeather(this.state.latitude, this.state.longitude, this.weatherCallback);
+        this.updateTimer = setInterval(() => {
+            this.weatherService.getWeather(this.state.latitude, this.state.longitude, this.weatherCallback);
+        }, 60000);
     }
 
     render() {
         return (
-            <Col md={6} className={this.getBackgroundColor()} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+            <Col md={6} className={this.state.weatherClassName} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
                 <PlaceName name={this.state.name} adminLevel1={this.state.adminLevel1} country={this.state.country}/>
-                <Temperature value={this.state.temperature}/>
-                <Conditions description={this.state.conditions} humidity={this.state.humidity} windDirection={this.state.windDirection} windSpeed={this.state.windSpeed}/>
+                {this.state.temperature} {this.state.conditions}
                 <PlaceRemoveButton ref={this.setRemoveButtonRef} onPlaceRemoved={this.handlePlaceRemoved}/>
             </Col>
         );
