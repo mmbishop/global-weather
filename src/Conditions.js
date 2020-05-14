@@ -2,16 +2,6 @@ import React from 'react';
 
 export class Conditions extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            description: props.description,
-            humidity: props.humidity,
-            windDirection: props.windDirection,
-            windSpeed: props.windSpeed
-        };
-    }
-
     toDirectionString(degrees) {
         if (degrees >= 348.75 || degrees < 11.25) {
             return "N";
@@ -67,8 +57,8 @@ export class Conditions extends React.Component {
     render() {
         return (
             <div className={"details"}>
-                <span>Conditions: {this.state.description}&nbsp;&nbsp;&nbsp;Humidity: {this.state.humidity}%&nbsp;&nbsp;&nbsp;
-                    Wind: {this.toDirectionString(this.state.windDirection)} at {this.state.windSpeed} mph</span>
+                <span>Conditions: {this.props.description}&nbsp;&nbsp;&nbsp;Humidity: {this.props.humidity}%&nbsp;&nbsp;&nbsp;
+                    Wind: {this.toDirectionString(this.props.windDirection)} at {this.props.windSpeed} mph</span>
             </div>
         );
     }

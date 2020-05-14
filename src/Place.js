@@ -82,24 +82,25 @@ export class Place extends React.Component {
     }
 
     weatherCallback(weatherData) {
-        this.setState({weatherClassName: this.getBackgroundColor(weatherData.temperature),
-            temperature: <Temperature value={weatherData.temperature}/>,
-            conditions: <Conditions description={weatherData.conditions} humidity={weatherData.humidity} windDirection={weatherData.windDirection}
-                                    windSpeed={weatherData.windSpeed}/>});
+        this.setState({weatherClassName: this.getBackgroundColor(weatherData.temperature), temperature: weatherData.temperature,
+            conditions: weatherData.conditions, humidity: weatherData.humidity, windDirection: weatherData.windDirection, windSpeed: weatherData.windSpeed});
     }
 
     componentDidMount() {
         this.weatherService.getWeather(this.state.latitude, this.state.longitude, this.weatherCallback);
         this.updateTimer = setInterval(() => {
             this.weatherService.getWeather(this.state.latitude, this.state.longitude, this.weatherCallback);
-        }, 60000);
+        }, 600000);
     }
 
     render() {
+        console.log("render called for " + this.state.name);
         return (
             <Col md={6} className={this.state.weatherClassName} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
                 <PlaceName name={this.state.name} adminLevel1={this.state.adminLevel1} country={this.state.country}/>
-                {this.state.temperature} {this.state.conditions}
+                <Temperature value={this.state.temperature}/>
+                <Conditions description={this.state.conditions} humidity={this.state.humidity} windDirection={this.state.windDirection}
+                            windSpeed={this.state.windSpeed}/>
                 <PlaceRemoveButton ref={this.setRemoveButtonRef} onPlaceRemoved={this.handlePlaceRemoved}/>
             </Col>
         );
