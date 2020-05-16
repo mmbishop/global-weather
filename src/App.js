@@ -1,7 +1,7 @@
 import React from 'react';
 import './weather.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import {WeatherUI} from "./WeatherUI";
+import WeatherUI from "./components/WeatherUI";
 
 function App() {
   return (
