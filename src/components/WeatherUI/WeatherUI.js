@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { combineReducers, createStore } from 'redux';
 import {Container} from "react-bootstrap";
 import { map } from 'lodash/fp';
@@ -7,13 +7,13 @@ import findPlace from "../../services/googleMaps/findPlace";
 import { getWeather } from "../../services/weather";
 import Row from "react-bootstrap/Row";
 import Search from "../Search";
-import Settings from "../Settings";
+import SettingsButton from "../Settings";
 import ls from 'local-storage';
+import SettingsDialog from "../SettingsDialog";
 
 export const loadState = () => {
     try {
         const serializedState = ls.get('global-weather');
-        console.log("serializedState = " + serializedState);
         if (serializedState === null) {
             return undefined;
         }
@@ -52,20 +52,25 @@ store.subscribe(() => {
     saveState(store.getState());
 });
 
-const getPlace = (name) => {
-    return findPlace(name).then(place =>
-        getWeather(place.lat, place.lng).then(weather => ([{
-                "name": place.name, "adminLevel1": place.adminLevel1, "country": place.country, "lat": place.lat, "lng": place.lng, "temperature": weather.temperature,
-                "conditions": weather.conditions, "humidity": weather.humidity, "windDirection": weather.windDirection, "windSpeed": weather.windSpeed
-        }]))
-    );
+const createWeatherObject = (place, weather) => {
+    console.log(`createWeatherObject(${place.name}, ${weather.temperature})`);
+    return ([{
+        "name": place.name, "adminLevel1": place.adminLevel1, "country": place.country, "lat": place.lat, "lng": place.lng, "temperature": weather.temperature,
+        "conditions": weather.conditions, "humidity": weather.humidity, "windDirection": weather.windDirection, "windSpeed": weather.windSpeed
+    }]);
+}
+
+const getPlace = (name, displayUnits) => {
+    return findPlace(name)
+        .then(place => getWeather(place.lat, place.lng, displayUnits)
+            .then(weather => createWeatherObject(place, weather)));
 }
 
 const useWeatherPlaces = () => {
     const [places, setPlaces] = useState(store.getState().placeReducer);
 
-    const addPlace = useCallback((name) => {
-            getPlace(name).then(v => {
+    const addPlace = useCallback((name, displayUnits) => {
+            getPlace(name, displayUnits).then(v => {
                 setPlaces([...places, ...v]);
                 store.dispatch({
                     type: 'ADD_PLACE',
@@ -83,7 +88,7 @@ const useWeatherPlaces = () => {
         });
     }, [places, setPlaces]);
 
-    return [places, addPlace, removePlace];
+    return [places, setPlaces, addPlace, removePlace];
 }
 
 const getSortedPlaces = (places) => {
@@ -91,26 +96,57 @@ const getSortedPlaces = (places) => {
 }
 
 const WeatherUI = () => {
-    const [places, addPlace, removePlace] = useWeatherPlaces();
+    const [places, setPlaces, addPlace, removePlace] = useWeatherPlaces();
     const [search, setSearch] = useState("");
+    const [showSettings, setShowSettings] = useState(false);
+    const [sortProperty, setSortProperty] = useState("none");
+    const [sortOrder, setSortOrder] = useState("ascending");
+    const [displayUnits, setDisplayUnits] = useState("imperial");
+
+    const updateSettings = (sortProperty, sortOrder, displayUnits) => {
+        setSortProperty(sortProperty);
+        setSortOrder(sortOrder);
+        setDisplayUnits(displayUnits);
+        setShowSettings(false);
+        Promise.all(places.map(place => getWeather(place.lat, place.lng, displayUnits).then(weather => createWeatherObject(place, weather))))
+            .then((values) => setPlaces(values.flat()));
+    }
+
+    useEffect(() => {
+        Promise.all(places.map(place => getWeather(place.lat, place.lng, displayUnits).then(weather => createWeatherObject(place, weather))))
+            .then((values) => setPlaces(values.flat()));
+
+        const interval = setInterval(() => {
+            Promise.all(places.map(place => getWeather(place.lat, place.lng, displayUnits).then(weather => createWeatherObject(place, weather))))
+                .then((values) => setPlaces(values.flat()));
+        }, 600000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
-        <Container>
-            <form onSubmit={(e) => {
-                e.preventDefault();
-                addPlace(search)
-            }}>
-                <Row>
-                    <Search onChange={v => setSearch(v)}/>
-                    <Settings/>
+        <div>
+            <Container>
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    addPlace(search, displayUnits)
+                }}>
+                    <Row>
+                        <Search onChange={v => setSearch(v)}/>
+                        <SettingsButton onSettingsRequested={() => setShowSettings(true)}/>
+                    </Row>
+                </form>
+                <Row id={"locations"}>
+                    {map.convert({cap: false})(value => <Place key={`${value.name}-${value.adminLevel1}-${value.country}`} name={value.name} adminLevel1={value.adminLevel1}
+                                                               country={value.country} temperature={value.temperature} conditions={value.conditions}
+                                                               humidity={value.humidity} windDirection={value.windDirection} windSpeed={value.windSpeed}
+                                                               displayUnits={displayUnits}
+                                                               onPlaceRemoved={() => removePlace(value.name, value.adminLevel1, value.country)}/>)(getSortedPlaces(places))}
                 </Row>
-            </form>
-            <Row id={"locations"}>
-                {map.convert({cap: false})(value => <Place key={`${value.name}-${value.adminLevel1}-${value.country}`} name={value.name} adminLevel1={value.adminLevel1}
-                                                                  country={value.country} temperature={value.temperature} conditions={value.conditions}
-                                                                  humidity={value.humidity} windDirection={value.windDirection} windSpeed={value.windSpeed}
-                                                                  onPlaceRemoved={() => removePlace(value.name, value.adminLevel1, value.country)}/>)(getSortedPlaces(places))}
-            </Row>
-        </Container>
+            </Container>
+            <SettingsDialog show={showSettings} onSettingsSaved={(sortProperty, sortOrder, displayUnits) => updateSettings(sortProperty, sortOrder, displayUnits)}
+                            onClose={() => setShowSettings(false)}
+                            currentSort={sortProperty} currentSortOrder={sortOrder} displayUnits={displayUnits}/>
+        </div>
     );
 };
 

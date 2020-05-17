@@ -133,6 +133,7 @@ body {
   left: 5px;
   font-size: 12pt;
   color: white;
+  cursor: pointer;
 }
 
 .settings-icon {

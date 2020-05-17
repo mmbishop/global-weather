@@ -3,12 +3,12 @@ import Image from "react-bootstrap/Image";
 import settingsIconImage from "../../images/gear.png";
 import React from "react";
 
-const Settings = () => {
+const SettingsButton = ({onSettingsRequested}) => {
     return (
         <Col sm={3} md={1}>
-            <Image className="settings-icon" src={settingsIconImage} alt="Settings"/>
+            <Image className="settings-icon" src={settingsIconImage} alt="SettingsButton" onClick={onSettingsRequested}/>
         </Col>
     );
 }
 
-export default Settings;
+export default SettingsButton;
