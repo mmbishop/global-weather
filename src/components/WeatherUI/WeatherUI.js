@@ -91,8 +91,21 @@ const useWeatherPlaces = () => {
     return [places, setPlaces, addPlace, removePlace];
 }
 
-const getSortedPlaces = (places) => {
-    return places.sort((a, b) => b.temperature - a.temperature);
+const getSortedPlaces = (places, sortProperty, sortOrder) => {
+    switch (sortProperty) {
+        case "name":
+            return places.sort((a, b) => sortOrder === "ascending" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name));
+        case "temperature":
+            return places.sort((a, b) => sortOrder === "ascending" ? a.temperature - b.temperature : b.temperature - a.temperature);
+        case "conditions":
+            return places.sort((a, b) => sortOrder === "ascending" ? a.conditions.localeCompare(b.conditions) : b.conditions.localeCompare(a.conditions));
+        case "humidity":
+            return places.sort((a, b) => sortOrder === "ascending" ? a.humidity - b.humidity : b.humidity - a.humidity);
+        case "windSpeed":
+            return places.sort((a, b) => sortOrder === "ascending" ? a.windSpeed - b.windSpeed : b.windSpeed - a.windSpeed);
+        default:
+            return places;
+    }
 }
 
 const WeatherUI = () => {
@@ -140,7 +153,7 @@ const WeatherUI = () => {
                                                                country={value.country} temperature={value.temperature} conditions={value.conditions}
                                                                humidity={value.humidity} windDirection={value.windDirection} windSpeed={value.windSpeed}
                                                                displayUnits={displayUnits}
-                                                               onPlaceRemoved={() => removePlace(value.name, value.adminLevel1, value.country)}/>)(getSortedPlaces(places))}
+                                                               onPlaceRemoved={() => removePlace(value.name, value.adminLevel1, value.country)}/>)(getSortedPlaces(places, sortProperty, sortOrder))}
                 </Row>
             </Container>
             <SettingsDialog show={showSettings} onSettingsSaved={(sortProperty, sortOrder, displayUnits) => updateSettings(sortProperty, sortOrder, displayUnits)}
