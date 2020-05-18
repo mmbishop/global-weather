@@ -5,12 +5,12 @@ import Modal from "react-bootstrap/Modal";
 import ModalTitle from "react-bootstrap/ModalTitle";
 import ModalBody from "react-bootstrap/ModalBody";
 import ModalFooter from "react-bootstrap/ModalFooter";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 
-const SettingsDialog = ({show, onSettingsSaved, onClose, currentSort, currentSortOrder, displayUnits: currentDisplayUnits}) => {
+const SettingsDialog = ({show, onSettingsSaved, onClose, currentSort, currentSortOrder, currentDisplayUnits}) => {
     const [sortProperty, setSortProperty] = useState(currentSort);
     const [sortOrder, setSortOrder] = useState(currentSortOrder);
     const [displayUnits, setDisplayUnits] = useState(currentDisplayUnits);
+    const oldDisplayUnits = currentDisplayUnits;
 
     return (
         <Modal show={show} onHide={onClose} animation={false} centered>
@@ -46,7 +46,7 @@ const SettingsDialog = ({show, onSettingsSaved, onClose, currentSort, currentSor
                 <label htmlFor={"metric"}>Metric</label>
             </ModalBody>
             <ModalFooter>
-                <Button variant={"primary"} onClick={() => onSettingsSaved(sortProperty, sortOrder, displayUnits)}>Save</Button>
+                <Button variant={"primary"} onClick={() => onSettingsSaved(sortProperty, sortOrder, oldDisplayUnits, displayUnits)}>Save</Button>
                 <Button variant={"secondary"} onClick={onClose}>Close</Button>
             </ModalFooter>
         </Modal>

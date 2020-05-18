@@ -10,10 +10,13 @@ import Search from "../Search";
 import SettingsButton from "../Settings";
 import ls from 'local-storage';
 import SettingsDialog from "../SettingsDialog";
+import { convertTemperature } from '../../services/weather';
+import { convertSpeed } from '../../services/weather';
 
 export const loadState = () => {
     try {
         const serializedState = ls.get('global-weather');
+        console.log("loadState: " + serializedState);
         if (serializedState === null) {
             return undefined;
         }
@@ -45,8 +48,15 @@ function placeReducer(state = [], action) {
     }
 }
 
+function settingsReducer(state = [], action) {
+    if (action.type === 'UPDATE_SETTINGS') {
+        return action.settings;
+    }
+    return state;
+}
+
 const persistedState = loadState();
-const reducer = combineReducers({ placeReducer });
+const reducer = combineReducers({ placeReducer, settingsReducer });
 const store = createStore(reducer, persistedState);
 store.subscribe(() => {
     saveState(store.getState());
@@ -112,17 +122,24 @@ const WeatherUI = () => {
     const [places, setPlaces, addPlace, removePlace] = useWeatherPlaces();
     const [search, setSearch] = useState("");
     const [showSettings, setShowSettings] = useState(false);
-    const [sortProperty, setSortProperty] = useState("none");
-    const [sortOrder, setSortOrder] = useState("ascending");
-    const [displayUnits, setDisplayUnits] = useState("imperial");
+    const [sortProperty, setSortProperty] = useState(store.getState().settingsReducer.sortProperty);
+    const [sortOrder, setSortOrder] = useState(store.getState().settingsReducer.sortOrder);
+    const [displayUnits, setDisplayUnits] = useState(store.getState().settingsReducer.displayUnits);
 
-    const updateSettings = (sortProperty, sortOrder, displayUnits) => {
+    const updateSettings = (sortProperty, sortOrder, oldDisplayUnits, newDisplayUnits) => {
         setSortProperty(sortProperty);
         setSortOrder(sortOrder);
-        setDisplayUnits(displayUnits);
+        setDisplayUnits(newDisplayUnits);
         setShowSettings(false);
-        Promise.all(places.map(place => getWeather(place.lat, place.lng, displayUnits).then(weather => createWeatherObject(place, weather))))
-            .then((values) => setPlaces(values.flat()));
+        setPlaces(places.map(place => {
+            place.temperature = convertTemperature(place.temperature, oldDisplayUnits, newDisplayUnits);
+            place.windSpeed = convertSpeed(place.windSpeed, oldDisplayUnits, newDisplayUnits);
+            return place;
+        }));
+        store.dispatch({
+            type: 'UPDATE_SETTINGS',
+            settings: {sortProperty: sortProperty, sortOrder: sortOrder, displayUnits: newDisplayUnits}
+        });
     }
 
     useEffect(() => {
@@ -156,9 +173,10 @@ const WeatherUI = () => {
                                                                onPlaceRemoved={() => removePlace(value.name, value.adminLevel1, value.country)}/>)(getSortedPlaces(places, sortProperty, sortOrder))}
                 </Row>
             </Container>
-            <SettingsDialog show={showSettings} onSettingsSaved={(sortProperty, sortOrder, displayUnits) => updateSettings(sortProperty, sortOrder, displayUnits)}
+            <SettingsDialog show={showSettings}
+                            onSettingsSaved={(sortProperty, sortOrder, oldDisplayUnits, newDisplayUnits) => updateSettings(sortProperty, sortOrder, oldDisplayUnits, newDisplayUnits)}
                             onClose={() => setShowSettings(false)}
-                            currentSort={sortProperty} currentSortOrder={sortOrder} displayUnits={displayUnits}/>
+                            currentSort={sortProperty} currentSortOrder={sortOrder} currentDisplayUnits={displayUnits}/>
         </div>
     );
 };

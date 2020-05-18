@@ -55,8 +55,7 @@ const toDirectionString = (degrees) => {
 const Conditions = ({conditions, humidity, windDirection, windSpeed, displayUnits}) => {
     return (
         <div className={"details"}>
-                <span>Conditions: {conditions}&nbsp;&nbsp;&nbsp;Humidity: {humidity}%&nbsp;&nbsp;&nbsp;
-                    Wind: {toDirectionString(windDirection)} at {windSpeed} {displayUnits === "metric" ? "kph" : "mph"}</span>
+                <span>Conditions: {conditions}&nbsp;&nbsp;Humidity: {humidity}%&nbsp;&nbsp;Wind: {toDirectionString(windDirection)} at {windSpeed} {displayUnits === "metric" ? "kph" : "mph"}</span>
         </div>
     );
 }
