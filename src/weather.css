@@ -103,7 +103,7 @@ body {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  background-color: white;
+  background-color: #EEE;
 }
 .add-city input {
   outline: none;
@@ -167,4 +167,40 @@ body {
   position: absolute;
   top: 58px;
   right: -10px;
+}
+
+.burger {
+  position: absolute;
+  top: 5px;
+  left: 520px;
+  font-size: 6px;
+  opacity: 0.5;
+}
+
+.weather-menu-button {
+  position: absolute;
+  left: 520px;
+  color: white;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  opacity: 0.75;
+}
+
+.weather-menu-button:hover {
+  color: yellow;
+}
+
+.weather-menu-button:focus {
+  outline: none;
+}
+
+.weather-menu {
+  background-color: #EEE;
+}
+
+.weather-menu-item {
+  font-size: 14px;
+  background-color: #EEE;
+  color: rgba(0, 0, 0, 0.75);
 }

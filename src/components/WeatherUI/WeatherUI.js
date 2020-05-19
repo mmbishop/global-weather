@@ -132,12 +132,14 @@ const WeatherUI = () => {
         setSortOrder(sortOrder);
         setDisplayUnits(newDisplayUnits);
         setShowSettings(false);
-        setPlaces(places.map(place => {
-            place.temperature = convertTemperature(place.temperature, oldDisplayUnits, newDisplayUnits);
-            place.feelsLike = convertTemperature(place.feelsLike, oldDisplayUnits, newDisplayUnits);
-            place.windSpeed = convertSpeed(place.windSpeed, oldDisplayUnits, newDisplayUnits);
-            return place;
-        }));
+        if (newDisplayUnits !== oldDisplayUnits) {
+            setPlaces(places.map(place => {
+                place.temperature = convertTemperature(place.temperature, oldDisplayUnits, newDisplayUnits);
+                place.feelsLike = convertTemperature(place.feelsLike, oldDisplayUnits, newDisplayUnits);
+                place.windSpeed = convertSpeed(place.windSpeed, oldDisplayUnits, newDisplayUnits);
+                return place;
+            }));
+        }
         store.dispatch({
             type: 'UPDATE_SETTINGS',
             settings: {sortProperty: sortProperty, sortOrder: sortOrder, displayUnits: newDisplayUnits}

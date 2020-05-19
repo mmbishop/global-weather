@@ -5,7 +5,8 @@ import Conditions from "../Conditions";
 import PlaceRemoveButton from "../PlaceRemoveButton";
 import Temperature from "../Temperature";
 import { convertTemperature } from "../../services/weather";
-import {Image, OverlayTrigger, Tooltip} from "react-bootstrap";
+import WeatherMenu from "../WeatherMenu/WeatherMenu";
+import WeatherIcon from "../WeatherIcon";
 
 const getBackgroundColor = (currentTemp, displayUnits) => {
     let temp = currentTemp;
@@ -30,26 +31,26 @@ const getBackgroundColor = (currentTemp, displayUnits) => {
     return "undefined-temp";
 }
 
-const Place = ({name, adminLevel1, country, weatherData, displayUnits, onPlaceRemoved}) => {
-    const [showButton, setShowButton] = useState(false);
+const Place = ({name, adminLevel1, country, weatherData, displayUnits, onPlaceRemoved, onForecastRequested, onWeatherMapRequested}) => {
+    const [hasFocus, setHasFocus] = useState(false);
     const roundedTemperature = Math.round(weatherData.temperature);
     const roundedFeelsLike = Math.round(weatherData.feelsLike);
     const roundedWindSpeed = Math.round(weatherData.windSpeed);
+
     return (
-        <Col md={6} className={getBackgroundColor(roundedTemperature, displayUnits)} onMouseEnter={() => setShowButton(true)} onMouseLeave={() => setShowButton(false)}>
+        <Col md={6} className={getBackgroundColor(roundedTemperature, displayUnits)}
+             onMouseEnter={() => setHasFocus(true)}
+             onMouseLeave={() => setHasFocus(false)}>
             <PlaceName name={name} adminLevel1={adminLevel1} country={country}/>
             <Temperature value={roundedTemperature} displayUnits={displayUnits}/>
             <Conditions feelsLike={roundedFeelsLike} humidity={weatherData.humidity} windDirection={weatherData.windDirection} windSpeed={roundedWindSpeed} displayUnits={displayUnits}/>
             {weatherData.icon !== undefined && (
-                <OverlayTrigger placement={"right"} delay={{show: 250, hide:400}} overlay={
-                    <Tooltip id={"button-tooltip"}>
-                        {weatherData.conditions}
-                    </Tooltip>
-                }>
-                    <Image className={"weather-icon"} src={require(`../../images/${weatherData.icon}.png`)} alt={"Weather icon"}/>
-                </OverlayTrigger>
+                <WeatherIcon icon={weatherData.icon} description={weatherData.conditions}/>
             )}
-            {showButton && (
+            {hasFocus && (
+                <WeatherMenu onForecastRequested={onForecastRequested} onMapRequested={onWeatherMapRequested}/>
+            )}
+            {hasFocus && (
                 <PlaceRemoveButton onPlaceRemoved={() => onPlaceRemoved(name, adminLevel1, country)}/>
             )}
         </Col>
