@@ -63,10 +63,11 @@ store.subscribe(() => {
 });
 
 const createWeatherObject = (place, weather) => {
-    console.log(`createWeatherObject(${place.name}, ${weather.temperature})`);
+    console.log(`createWeatherObject(${place.name}, ${weather.temperature}, ${weather.icon})`);
     return ([{
-        "name": place.name, "adminLevel1": place.adminLevel1, "country": place.country, "lat": place.lat, "lng": place.lng, "temperature": weather.temperature,
-        "conditions": weather.conditions, "humidity": weather.humidity, "windDirection": weather.windDirection, "windSpeed": weather.windSpeed
+        name: place.name, adminLevel1: place.adminLevel1, country: place.country, lat: place.lat, lng: place.lng, temperature: weather.temperature,
+        conditions: weather.conditions, humidity: weather.humidity, windDirection: weather.windDirection, windSpeed: weather.windSpeed,
+        feelsLike: weather.feelsLike, icon: weather.icon
     }]);
 }
 
@@ -133,6 +134,7 @@ const WeatherUI = () => {
         setShowSettings(false);
         setPlaces(places.map(place => {
             place.temperature = convertTemperature(place.temperature, oldDisplayUnits, newDisplayUnits);
+            place.feelsLike = convertTemperature(place.feelsLike, oldDisplayUnits, newDisplayUnits);
             place.windSpeed = convertSpeed(place.windSpeed, oldDisplayUnits, newDisplayUnits);
             return place;
         }));
@@ -167,9 +169,7 @@ const WeatherUI = () => {
                 </form>
                 <Row id={"locations"}>
                     {map.convert({cap: false})(value => <Place key={`${value.name}-${value.adminLevel1}-${value.country}`} name={value.name} adminLevel1={value.adminLevel1}
-                                                               country={value.country} temperature={value.temperature} conditions={value.conditions}
-                                                               humidity={value.humidity} windDirection={value.windDirection} windSpeed={value.windSpeed}
-                                                               displayUnits={displayUnits}
+                                                               country={value.country} weatherData={value} displayUnits={displayUnits}
                                                                onPlaceRemoved={() => removePlace(value.name, value.adminLevel1, value.country)}/>)(getSortedPlaces(places, sortProperty, sortOrder))}
                 </Row>
             </Container>
