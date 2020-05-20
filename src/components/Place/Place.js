@@ -48,7 +48,8 @@ const Place = ({name, adminLevel1, country, weatherData, displayUnits, onPlaceRe
                 <WeatherIcon icon={weatherData.icon} description={weatherData.conditions}/>
             )}
             {hasFocus && (
-                <WeatherMenu onForecastRequested={onForecastRequested} onMapRequested={onWeatherMapRequested}/>
+                <WeatherMenu onForecastRequested={() => onForecastRequested(name, adminLevel1, country)}
+                             onMapRequested={() => onWeatherMapRequested(name, adminLevel1, country)}/>
             )}
             {hasFocus && (
                 <PlaceRemoveButton onPlaceRemoved={() => onPlaceRemoved(name, adminLevel1, country)}/>

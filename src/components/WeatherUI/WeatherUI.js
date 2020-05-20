@@ -4,7 +4,7 @@ import {Container} from "react-bootstrap";
 import { map } from 'lodash/fp';
 import Place from '../Place';
 import findPlace from "../../services/googleMaps/findPlace";
-import { getWeather } from "../../services/weather";
+import { getWeather, getForecast } from "../../services/weather";
 import Row from "react-bootstrap/Row";
 import Search from "../Search";
 import SettingsButton from "../Settings";
@@ -12,6 +12,7 @@ import ls from 'local-storage';
 import SettingsDialog from "../SettingsDialog";
 import { convertTemperature } from '../../services/weather';
 import { convertSpeed } from '../../services/weather';
+import ForecastDialog from "../ForecastDialog/ForecastDialog";
 
 export const loadState = () => {
     try {
@@ -122,6 +123,8 @@ const getSortedPlaces = (places, sortProperty, sortOrder) => {
 const WeatherUI = () => {
     const [places, setPlaces, addPlace, removePlace] = useWeatherPlaces();
     const [search, setSearch] = useState("");
+    const [forecastPlace, setForecastPlace] = useState({});
+    const [showForecast, setShowForecast] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
     const [sortProperty, setSortProperty] = useState(store.getState().settingsReducer.sortProperty);
     const [sortOrder, setSortOrder] = useState(store.getState().settingsReducer.sortOrder);
@@ -144,6 +147,19 @@ const WeatherUI = () => {
             type: 'UPDATE_SETTINGS',
             settings: {sortProperty: sortProperty, sortOrder: sortOrder, displayUnits: newDisplayUnits}
         });
+    }
+
+    const showForecastDialog = (placeName, adminLevel1, country) => {
+        const forecastPlace = places.find(place => place.name === placeName && place.adminLevel1 === adminLevel1 && place.country === country);
+        getForecast(forecastPlace.lat, forecastPlace.lng)
+            .then(forecast => {
+                setForecastPlace({placeName: placeName, adminLevel1: adminLevel1, country: country, forecast: forecast});
+                setShowForecast(true);
+        });
+    }
+
+    const showWeatherMap = (placeName, adminLevel1, country) => {
+
     }
 
     useEffect(() => {
@@ -172,13 +188,20 @@ const WeatherUI = () => {
                 <Row id={"locations"}>
                     {map.convert({cap: false})(value => <Place key={`${value.name}-${value.adminLevel1}-${value.country}`} name={value.name} adminLevel1={value.adminLevel1}
                                                                country={value.country} weatherData={value} displayUnits={displayUnits}
-                                                               onPlaceRemoved={() => removePlace(value.name, value.adminLevel1, value.country)}/>)(getSortedPlaces(places, sortProperty, sortOrder))}
+                                                               onPlaceRemoved={() => removePlace(value.name, value.adminLevel1, value.country)}
+                                                               onForecastRequested={(placeName, adminLevel1, country) => showForecastDialog(placeName, adminLevel1, country)}
+                                                               onWeatherMapRequested={(placeName, adminLevel1, country) => showWeatherMap(placeName, adminLevel1, country)}/>)(getSortedPlaces(places, sortProperty, sortOrder))}
                 </Row>
             </Container>
             <SettingsDialog show={showSettings}
                             onSettingsSaved={(sortProperty, sortOrder, oldDisplayUnits, newDisplayUnits) => updateSettings(sortProperty, sortOrder, oldDisplayUnits, newDisplayUnits)}
                             onClose={() => setShowSettings(false)}
                             currentSort={sortProperty} currentSortOrder={sortOrder} currentDisplayUnits={displayUnits}/>
+            {showForecast &&
+                <ForecastDialog show={showForecast} placeName={forecastPlace.placeName}
+                                adminLevel1={forecastPlace.adminLevel1} country={forecastPlace.country}
+                                forecast={forecastPlace.forecast} onClose={() => setShowForecast(false)}/>
+            }
         </div>
     );
 };
