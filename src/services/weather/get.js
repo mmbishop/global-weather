@@ -6,7 +6,7 @@ const getCurrentDate = () => {
 }
 
 export default (lat, lng, displayUnits) => (
-    window.fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=imperial&APPID=4a072a2d89070b207876f6f8a46ed21f`)
+    window.fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=imperial&APPID=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`)
         .then(res => res.json())
         .then((owmResult) => {
             console.log(`${getCurrentDate()}: lat = ${lat}, lng = ${lng}, temp = ${owmResult.main.temp}`);
