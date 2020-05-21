@@ -1,0 +1,1 @@
+export { getLocationHierarchy } from './location';

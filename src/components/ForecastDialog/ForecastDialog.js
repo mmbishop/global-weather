@@ -11,23 +11,26 @@ import HourlyForecastTile from "../HourlyForecastTile";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import DailyForecastTile from "../DailyForecastTile/DailyForecastTile";
+import {getLocationHierarchy} from "../../services/util";
 
 export const ForecastDialog = ({show, placeName, adminLevel1, country, forecast, displayUnits, onClose}) => {
     return (
         <Modal show={show} onHide={onClose} animation={false} centered>
             <ModalHeader>
-                <ModalTitle>{`Forecast for ${placeName}, ${adminLevel1}, ${country}`}</ModalTitle>
+                <ModalTitle>{`Forecast for ${placeName}, ${getLocationHierarchy(adminLevel1, country)}`}</ModalTitle>
             </ModalHeader>
             <ModalBody>
                 <Tabs id={"forecastTab"} defaultActiveKey={"hourly"}>
                     <Tab eventKey={"hourly"} title={"Hourly"} style={{overflowY: "scroll", height: "557px"}}>
                         {map.convert({cap: false})(forecast =>
-                            <HourlyForecastTile displayUnits={displayUnits} time={forecast.time} weatherData={forecast}/>
+                            <HourlyForecastTile key={`hourly-${placeName}-${adminLevel1}-${country}-${forecast.time}`}
+                                                displayUnits={displayUnits} time={forecast.time} weatherData={forecast}/>
                         )(forecast.hourlyForecast)}
                     </Tab>
                     <Tab eventKey={"daily"} title={"Daily"} style={{overflowY: "scroll", height: "557px"}}>
                         {map.convert({cap: false})(forecast =>
-                            <DailyForecastTile time={forecast.time} displayUnits={displayUnits} weatherData={forecast}/>
+                            <DailyForecastTile key={`daily-${placeName}-${adminLevel1}-${country}-${forecast.time}`}
+                                               time={forecast.time} displayUnits={displayUnits} weatherData={forecast}/>
                         )(forecast.dailyForecast)}
                     </Tab>
                 </Tabs>
