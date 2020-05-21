@@ -1,4 +1,6 @@
-export default (lat, lng) => (
+import {convertTemperature} from "./converters";
+
+export default (lat, lng, displayUnits) => (
     window.fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=current&units=imperial&appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`)
         .then(res => res.json())
         .then((owmResult) => {
@@ -7,12 +9,12 @@ export default (lat, lng) => (
                 hourlyForecast: owmResult.hourly.map(hour => {
                     return {
                         time: (hour.dt + appliedTimezoneOffset) * 1000,
-                        temperature: hour.temp,
-                        feelsLike: hour.feels_like,
+                        temperature: convertTemperature(hour.temp, "imperial", displayUnits),
+                        feelsLike: convertTemperature(hour.feels_like, "imperial", displayUnits),
                         humidity: hour.humidity,
                         windSpeed: hour.wind_speed,
                         windDirection: hour.wind_deg,
-                        conditions: hour.weather[0].main,
+                        conditions: hour.weather[0].description,
                         icon: hour.weather[0].icon
                     };
                 }),
@@ -21,12 +23,12 @@ export default (lat, lng) => (
                         time: (day.dt + appliedTimezoneOffset) * 1000,
                         sunrise: (day.sunrise + appliedTimezoneOffset) * 1000,
                         sunset: (day.sunset + appliedTimezoneOffset) * 1000,
-                        highTemperature: day.temp.max,
-                        lowTemperature: day.temp.min,
+                        highTemperature: convertTemperature(day.temp.max, "imperial", displayUnits),
+                        lowTemperature: convertTemperature(day.temp.min, "imperial", displayUnits),
                         humidity: day.humidity,
                         windSpeed: day.wind_speed,
                         windDirection: day.wind_deg,
-                        conditions: day.weather[0].main,
+                        conditions: day.weather[0].description,
                         icon: day.weather[0].icon
                     };
                 })

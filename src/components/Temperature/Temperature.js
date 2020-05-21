@@ -1,8 +1,8 @@
 import React from "react";
 
-const Temperature = ({value, displayUnits}) => {
+const Temperature = ({className="weather", value, displayUnits}) => {
     return (
-        <div className={"weather"}>{value}
+        <div className={className}>{value}
             <span className={"temp-unit"}>°{displayUnits === "metric" ? "C" : "F"}</span>
         </div>
     );

@@ -15,7 +15,7 @@ export default (lat, lng, displayUnits) => (
             const humidity = owmResult.main.humidity;
             const windDirection = owmResult.wind.deg;
             const windSpeed = convertSpeed(owmResult.wind.speed, "imperial", displayUnits);
-            const conditions = owmResult.weather[0].main;
+            const conditions = owmResult.weather[0].description;
             const icon = owmResult.weather[0].icon;
             return ({
                 temperature: temperature,

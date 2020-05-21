@@ -151,7 +151,7 @@ const WeatherUI = () => {
 
     const showForecastDialog = (placeName, adminLevel1, country) => {
         const forecastPlace = places.find(place => place.name === placeName && place.adminLevel1 === adminLevel1 && place.country === country);
-        getForecast(forecastPlace.lat, forecastPlace.lng)
+        getForecast(forecastPlace.lat, forecastPlace.lng, displayUnits)
             .then(forecast => {
                 setForecastPlace({placeName: placeName, adminLevel1: adminLevel1, country: country, forecast: forecast});
                 setShowForecast(true);
@@ -200,7 +200,7 @@ const WeatherUI = () => {
             {showForecast &&
                 <ForecastDialog show={showForecast} placeName={forecastPlace.placeName}
                                 adminLevel1={forecastPlace.adminLevel1} country={forecastPlace.country}
-                                forecast={forecastPlace.forecast} onClose={() => setShowForecast(false)}/>
+                                forecast={forecastPlace.forecast} displayUnits={displayUnits} onClose={() => setShowForecast(false)}/>
             }
         </div>
     );
