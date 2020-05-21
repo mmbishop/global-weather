@@ -6,7 +6,6 @@ import ModalBody from "react-bootstrap/ModalBody";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import {Button} from "react-bootstrap";
 import { map } from 'lodash/fp';
-import Moment from "react-moment";
 import HourlyForecastTile from "../HourlyForecastTile";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
