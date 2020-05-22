@@ -20,7 +20,7 @@ const DailyForecastTile = ({time, weatherData, displayUnits}) => {
         <Container className={"border-bottom"}>
             <Row>
                 <Col className={"col-md-12"}>
-                    <Moment className={"daily-forecast-time"} format={"MM/DD/YYYY"}>{time}</Moment>
+                    <Moment className={"daily-forecast-time"} format={"dddd, MM/DD/YYYY"}>{time}</Moment>
                 </Col>
             </Row>
             <Row>

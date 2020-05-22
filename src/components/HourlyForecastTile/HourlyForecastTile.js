@@ -18,7 +18,7 @@ const HourlyForecastTile = ({time, weatherData, displayUnits}) => {
         <Container className={temperatureColor}>
             <Row>
                 <Col className={"col-md-12"}>
-                    <Moment className={"hourly-forecast-time"} format={"MM/DD/YYYY HH:mm"}>{time}</Moment>
+                    <Moment className={"hourly-forecast-time"} format={"dddd, MM/DD/YYYY HH:mm"}>{time}</Moment>
                 </Col>
             </Row>
             <Row>
