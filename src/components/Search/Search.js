@@ -4,6 +4,7 @@ import React from "react";
 const handleKeyPress = (e, onChange) => {
     if (e.keyCode === 13) {
         onChange(e.target.value);
+        e.target.value = "";
     }
 }
 
