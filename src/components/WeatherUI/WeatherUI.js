@@ -13,6 +13,7 @@ import SettingsDialog from "../SettingsDialog";
 import { convertTemperature } from '../../services/weather';
 import { convertSpeed } from '../../services/weather';
 import ForecastDialog from "../ForecastDialog/ForecastDialog";
+import WeatherMap from "../WeatherMap";
 
 export const loadState = () => {
     try {
@@ -125,6 +126,7 @@ const WeatherUI = () => {
     const [search, setSearch] = useState("");
     const [forecastPlace, setForecastPlace] = useState({});
     const [showForecast, setShowForecast] = useState(false);
+    const [showMap, setShowMap] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
     const [sortProperty, setSortProperty] = useState(store.getState().settingsReducer.sortProperty);
     const [sortOrder, setSortOrder] = useState(store.getState().settingsReducer.sortOrder);
@@ -159,7 +161,8 @@ const WeatherUI = () => {
     }
 
     const showWeatherMap = (placeName, adminLevel1, country) => {
-
+        setForecastPlace(places.find(place => place.name === placeName && place.adminLevel1 === adminLevel1 && place.country === country));
+        setShowMap(true);
     }
 
     useEffect(() => {
@@ -201,6 +204,11 @@ const WeatherUI = () => {
                 <ForecastDialog show={showForecast} placeName={forecastPlace.placeName}
                                 adminLevel1={forecastPlace.adminLevel1} country={forecastPlace.country}
                                 forecast={forecastPlace.forecast} displayUnits={displayUnits} onClose={() => setShowForecast(false)}/>
+            }
+            {showMap &&
+                <WeatherMap show={showMap} placeName={forecastPlace.name} adminLevel1={forecastPlace.adminLevel1}
+                            country={forecastPlace.country} lat={forecastPlace.lat} lng={forecastPlace.lng}
+                            onClose={() => setShowMap(false)}/>
             }
         </div>
     );
