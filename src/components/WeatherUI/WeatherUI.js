@@ -25,6 +25,7 @@ export const loadState = () => {
         return JSON.parse(serializedState);
     }
     catch (err) {
+        console.log("Error while loading global state: " + err);
         return undefined;
     }
 }
@@ -44,7 +45,7 @@ function placeReducer(state = [], action) {
         case 'ADD_PLACE':
             return [...state, action.place];
         case 'REMOVE_PLACE':
-            return action.places;
+            return state.filter(place => place.name !== action.place.name || place.adminLevel1 !== action.place.adminLevel1 || place.country !== action.place.country);
         default:
             return state;
     }
@@ -97,7 +98,7 @@ const useWeatherPlaces = () => {
         setPlaces(filteredPlaces);
         store.dispatch({
             type: 'REMOVE_PLACE',
-            places: filteredPlaces
+            place: { name: name, adminLevel1: adminLevel1, country: country }
         });
     }, [places, setPlaces]);
 
