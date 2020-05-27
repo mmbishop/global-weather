@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { combineReducers, createStore } from 'redux';
 import {Container} from "react-bootstrap";
 import { map } from 'lodash/fp';
 import Place from '../Place';
@@ -8,62 +7,14 @@ import { getWeather, getForecast } from "../../services/weather";
 import Row from "react-bootstrap/Row";
 import Search from "../Search";
 import SettingsButton from "../Settings";
-import ls from 'local-storage';
 import SettingsDialog from "../SettingsDialog";
 import { convertTemperature } from '../../services/weather';
 import { convertSpeed } from '../../services/weather';
 import ForecastDialog from "../ForecastDialog/ForecastDialog";
 import WeatherMap from "../WeatherMap";
+import {deletePlace, getPlaces, getSettings, loadPersistedState, savePlace, saveSettings} from "../../services/persistence";
 
-export const loadState = () => {
-    try {
-        const serializedState = ls.get('global-weather');
-        console.log("loadState: " + serializedState);
-        if (serializedState === null) {
-            return undefined;
-        }
-        return JSON.parse(serializedState);
-    }
-    catch (err) {
-        console.log("Error while loading global state: " + err);
-        return undefined;
-    }
-}
-
-export const saveState = (state) => {
-    try {
-        const serializedState = JSON.stringify(state);
-        ls.set('global-weather', serializedState);
-    }
-    catch (err) {
-        console.log("Error while saving global state: " + err);
-    }
-}
-
-function placeReducer(state = [], action) {
-    switch (action.type) {
-        case 'ADD_PLACE':
-            return [...state, action.place];
-        case 'REMOVE_PLACE':
-            return state.filter(place => place.name !== action.place.name || place.adminLevel1 !== action.place.adminLevel1 || place.country !== action.place.country);
-        default:
-            return state;
-    }
-}
-
-function settingsReducer(state = [], action) {
-    if (action.type === 'UPDATE_SETTINGS') {
-        return action.settings;
-    }
-    return state;
-}
-
-const persistedState = loadState();
-const reducer = combineReducers({ placeReducer, settingsReducer });
-const store = createStore(reducer, persistedState);
-store.subscribe(() => {
-    saveState(store.getState());
-});
+loadPersistedState();
 
 const createWeatherObject = (place, weather) => {
     console.log(`createWeatherObject(${place.name}, ${weather.temperature}, ${weather.icon})`);
@@ -81,25 +32,19 @@ const getPlace = (name, displayUnits) => {
 }
 
 const useWeatherPlaces = () => {
-    const [places, setPlaces] = useState(store.getState().placeReducer);
+    const [places, setPlaces] = useState(getPlaces());
 
     const addPlace = useCallback((name, displayUnits) => {
             getPlace(name, displayUnits).then(v => {
                 setPlaces([...places, ...v]);
-                store.dispatch({
-                    type: 'ADD_PLACE',
-                    place: v[0]
-                });
+                savePlace(v[0]);
             });
     }, [places, setPlaces]);
 
     const removePlace = useCallback((name, adminLevel1, country) => {
         const filteredPlaces = places.filter(place => place.name !== name || place.adminLevel1 !== adminLevel1 || place.country !== country);
         setPlaces(filteredPlaces);
-        store.dispatch({
-            type: 'REMOVE_PLACE',
-            place: { name: name, adminLevel1: adminLevel1, country: country }
-        });
+        deletePlace({ name: name, adminLevel1: adminLevel1, country: country });
     }, [places, setPlaces]);
 
     return [places, setPlaces, addPlace, removePlace];
@@ -129,9 +74,10 @@ const WeatherUI = () => {
     const [showForecast, setShowForecast] = useState(false);
     const [showMap, setShowMap] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
-    const [sortProperty, setSortProperty] = useState(store.getState().settingsReducer.sortProperty);
-    const [sortOrder, setSortOrder] = useState(store.getState().settingsReducer.sortOrder);
-    const [displayUnits, setDisplayUnits] = useState(store.getState().settingsReducer.displayUnits);
+    const settings = getSettings();
+    const [sortProperty, setSortProperty] = useState(settings.sortProperty);
+    const [sortOrder, setSortOrder] = useState(settings.sortOrder);
+    const [displayUnits, setDisplayUnits] = useState(settings.displayUnits);
 
     const updateSettings = (sortProperty, sortOrder, oldDisplayUnits, newDisplayUnits) => {
         setSortProperty(sortProperty);
@@ -146,10 +92,7 @@ const WeatherUI = () => {
                 return place;
             }));
         }
-        store.dispatch({
-            type: 'UPDATE_SETTINGS',
-            settings: {sortProperty: sortProperty, sortOrder: sortOrder, displayUnits: newDisplayUnits}
-        });
+        saveSettings({ sortProperty: sortProperty, sortOrder: sortOrder, displayUnits: newDisplayUnits });
     }
 
     const showForecastDialog = (placeName, adminLevel1, country) => {
