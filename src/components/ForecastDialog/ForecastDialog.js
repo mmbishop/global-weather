@@ -14,7 +14,7 @@ import {getLocationHierarchy} from "../../services/util";
 
 export const ForecastDialog = ({show, placeName, adminLevel1, country, forecast, displayUnits, onClose}) => {
     return (
-        <Modal show={show} onHide={onClose} animation={false} centered>
+        <Modal className={"forecast-dialog"} show={show} onHide={onClose} animation={false} centered>
             <ModalHeader>
                 <ModalTitle>{`Forecast for ${placeName}, ${getLocationHierarchy(adminLevel1, country)}`}</ModalTitle>
             </ModalHeader>

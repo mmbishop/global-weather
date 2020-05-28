@@ -17,22 +17,22 @@ const HourlyForecastTile = ({time, weatherData, displayUnits}) => {
     return (
         <Container className={temperatureColor}>
             <Row>
-                <Col className={"col-md-12"}>
+                <Col xs={12} md={12}>
                     <Moment className={"hourly-forecast-time"} format={"dddd, MM/DD/YYYY HH:mm"}>{time}</Moment>
                 </Col>
             </Row>
             <Row>
-                <Col className={"col-md-8"}>
+                <Col xs={6} md={8}>
                     {weatherData.icon !== undefined && (
                         <WeatherIcon className={"hourly-weather-icon"} icon={weatherData.icon} description={weatherData.conditions}/>
                     )}
                 </Col>
-                <Col className={"col-md-4"}>
+                <Col xs={6} md={4}>
                     <Temperature className={"hourly-temperature"} value={roundedTemperature} displayUnits={displayUnits}/>
                 </Col>
             </Row>
             <Row>
-                <Col className={"col-md-12"}>
+                <Col xs={12} md={12}>
                     <Conditions className={"hourly-details"} feelsLike={roundedFeelsLike} humidity={weatherData.humidity} windDirection={weatherData.windDirection} windSpeed={roundedWindSpeed} displayUnits={displayUnits}/>
                 </Col>
             </Row>
