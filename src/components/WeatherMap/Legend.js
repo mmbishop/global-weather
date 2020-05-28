@@ -2,47 +2,25 @@ import {MapControl, withLeaflet} from "react-leaflet";
 import L from "leaflet";
 
 class Legend extends MapControl {
+
+    constructor(props) {
+        super(props);
+        this.colorMap = [{value: 100, color: "#bb0000"}, {value: 50, color: "#f70000"}, {value: 25, color: "#fe3f00"}, {value: 20, color: "#fe8b00"},
+            {value: 15, color: "#fed300"}, {value: 10, color: "#d9fe1b"}, {value: 7.5, color: "#9bfe63"}, {value: 5, color: "#4ffdaf"},
+            {value: 2.5, color: "#07fdf7"}, {value: 1, color: "#00adfd"}, {value: 0.5, color: "#004ffd"}, {value: 0.25, color: "#0000f7"},
+            {value: 0.1, color: "#0000bb"}];
+    }
+
     createLeafletElement(props) {}
 
     componentDidMount() {
-        const getColor = (d) => {
-            return d >= 100.0
-            ? "#bb0000"
-            : d >= 50.0
-            ? "#f70000"
-            : d >= 25.0
-            ? "#fe3f00"
-            : d >= 20.0
-            ? "#fe8b00"
-            : d >= 15.0
-            ? "#fed300"
-            : d >= 10.0
-            ? "#d9fe1b"
-            : d >= 7.5
-            ? "#9bfe63"
-            : d>= 5.0
-            ? "#4ffdaf"
-            : d >= 2.5
-            ? "#07fdf7"
-            : d >= 1.0
-            ? "#00adfd"
-            : d >= 0.5
-            ? "#004ffd"
-            : d >= 0.25
-            ? "#0000f7"
-            : d >= 0.10
-            ? "#0000bb"
-            : "#000000";
-        };
-
         const legend = L.control({ position: "bottomleft" });
         legend.onAdd = () => {
             const div = L.DomUtil.create("div", "map-info legend");
-            const levels = [100.0, 50.0, 25.0, 20.0, 15.0, 10.0, 7.5, 5.0, 2.5, 1.0, 0.5, 0.25, 0.1];
-            let labels = ['<span>Precip<br/>mm/hr</span>'];
-            for (let i = 0; i < levels.length; i++) {
-                labels.push('<i style="background:' + getColor(levels[i]) + '"></i> ' + levels[i]);
-            }
+            let labels = ['<span>Precip</span>', '<span>mm/hr</span>'];
+            this.colorMap.forEach(function (colorMapEntry) {
+                 labels.push('<span style="background:' + colorMapEntry.color + '"></span>' + colorMapEntry.value);
+            });
             div.innerHTML = labels.join("<br>");
             return div;
         }

@@ -312,7 +312,7 @@ body {
   color: #555;
 }
 
-.legend i {
+.legend span {
   width: 16px;
   height: 16px;
   float: left;
