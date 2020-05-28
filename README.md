@@ -1,16 +1,29 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Global Weather App
+
+This app displays the weather conditions in places around the world in tiles that are shown on the screen. Enter the name of a place in the text field at the
+top of the UI to add a tile showing the weather conditions in that place. When the mouse enters a tile, a menu button is shown at the upper right and a close
+button is shown at the upper left. From the menu, you can get the hourly and daily forecasts and a weather map showing precipitation.
+
 ## Available Scripts
 
 In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
+Runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits. 
 You will also see any lint errors in the console.
+
+In order to run this app, you'll need API keys from [OpenWeatherMap](https://openweathermap.org/api) and [Google Maps](https://developers.google.com/maps/documentation).
+OpenWeatherMap has a free tier and Google Maps allows plenty of API calls per month before they start charging you. That should allow you to run the app for free
+as long as you don't have too many places displayed at the same time (you should be OK with two dozen or so). When you have obtained those keys, 
+create a file called `.env` in the project root directory. **Do not add this file to source control**. In the `.env` file, add the following lines:
+
+```
+REACT_APP_GOOGLE_MAPS_CLIENT_ID=your-google-maps-api-key
+REACT_APP_OPENWEATHERMAP_API_KEY=your-openweathermap-api-key
+``` 
 
 ### `npm test`
 
