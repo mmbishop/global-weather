@@ -13,28 +13,6 @@ body {
   font-family: 'Helvetica Neue', sans-serif;
 }
 
-@media screen and (max-width: 400px) {
-  #locations div {
-    height: 200px;
-  }
-  .weather, .city {
-    display: block !important;
-    float: none !important;
-    width: 100% !important;
-    text-align: center !important;
-    padding: 0 !important;
-  }
-  .city {
-    padding: 35px 0 10px 0 !important;
-  }
-  .city span {
-    font-size: 10pt !important;
-  }
-  .weather {
-    padding: 0 0 0 28px !important;
-  }
-}
-
 .hot, .warm, .cool, .cold, .frigid {
   border-bottom: rgba(0, 0, 0, 0.1) 2px solid;
   border-left: rgba(0, 0, 0, 0.1) 2px solid;
@@ -89,18 +67,9 @@ body {
   color: black;
 }
 
-.city, .weather {
-  display: inline-block;
-  float: left;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
 .city {
-  width: 70%;
   font-size: 20pt;
-  padding: 25px 0 0 35px;
+  padding: 25px 0 0 0;
 }
 
 .city span {
@@ -116,11 +85,11 @@ body {
   text-align: right;
   font-size: 50pt;
   padding: 8px 30px 0 0;
+  float: right;
 }
 
 .hourly-temperature {
   color: white;
-  width: 30%;
   text-align: right;
   font-size: 50pt;
   position: relative;
@@ -128,7 +97,6 @@ body {
 }
 
 .daily-temperature {
-  width: 30%;
   text-align: right;
   font-size: 50pt;
   position: relative;
@@ -179,16 +147,13 @@ body {
 
 .details {
   color: white;
-  font-size: 12pt;
+  font-size: 16px;
   float: left;
-  position: relative;
-  top: 6px;
-  left: 35px;
 }
 
 .hourly-details {
   color: white;
-  font-size: 12pt;
+  font-size: 16px;
   float: left;
   position: relative;
   top: -12px;
@@ -236,9 +201,8 @@ body {
 }
 
 .weather-icon {
-  position: absolute;
-  top: 58px;
-  right: -10px;
+  position: relative;
+  top: -48px;
 }
 
 .hourly-weather-icon {
@@ -246,17 +210,9 @@ body {
   top: -10px;
 }
 
-.burger {
-  position: absolute;
-  top: 5px;
-  left: 520px;
-  font-size: 6px;
-  opacity: 0.5;
-}
-
 .weather-menu-button {
   position: absolute;
-  left: 520px;
+  right: -30px;
   color: white;
   background-color: transparent;
   outline: none;
@@ -319,3 +275,31 @@ body {
   margin-right: 8px;
   opacity: 0.7;
 }
+
+@media screen and (max-width: 576px) {
+  .city {
+    padding: 15px 0 0 0;
+  }
+
+  .weather {
+    padding: 0px 30px 0 0;
+  }
+
+  .details {
+    font-size: 12px;
+  }
+
+  .hourly-details {
+    font-size: 11px;
+  }
+
+  .weather-icon {
+    top: -40px;
+  }
+
+  .daily-temperature {
+    font-size: 40pt;
+    top: 0;
+  }
+}
+

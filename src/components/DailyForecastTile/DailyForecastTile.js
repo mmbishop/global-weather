@@ -19,25 +19,25 @@ const DailyForecastTile = ({time, weatherData, displayUnits}) => {
     return (
         <Container className={"border-bottom"}>
             <Row>
-                <Col className={"col-md-12"}>
+                <Col md={12}>
                     <Moment className={"daily-forecast-time"} format={"dddd, MM/DD/YYYY"}>{time}</Moment>
                 </Col>
             </Row>
             <Row>
-                <Col className={"col-md-4"}>
+                <Col xs={4} md={4}>
                     {weatherData.icon !== undefined && (
                         <WeatherIcon className={"hourly-weather-icon"} icon={weatherData.icon} description={weatherData.conditions}/>
                     )}
                 </Col>
-                <Col className={"col-md-4"}>
+                <Col xs={4} md={4}>
                     <Temperature className={`${highTemperatureColor}-foreground daily-temperature`} value={roundedHighTemperature} displayUnits={displayUnits}/>
                 </Col>
-                <Col className={"col-md-4"}>
+                <Col xs={4}md={4}>
                     <Temperature className={`${lowTemperatureColor}-foreground daily-temperature`} value={roundedLowTemperature} displayUnits={displayUnits}/>
                 </Col>
             </Row>
             <Row>
-                <Col className={"col-md-9 col-md-offset-3"}>
+                <Col md={12}>
                     <Conditions className={"daily-details"} feelsLike={roundedFeelsLike} humidity={weatherData.humidity} windDirection={weatherData.windDirection} windSpeed={roundedWindSpeed} displayUnits={displayUnits}/>
                 </Col>
             </Row>
