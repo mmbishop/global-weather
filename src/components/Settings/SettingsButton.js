@@ -5,7 +5,7 @@ import React from "react";
 
 const SettingsButton = ({onSettingsRequested}) => {
     return (
-        <Col sm={3} md={1}>
+        <Col xs={2} md={1}>
             <Image className="settings-icon" src={settingsIconImage} alt="SettingsButton" onClick={onSettingsRequested}/>
         </Col>
     );
