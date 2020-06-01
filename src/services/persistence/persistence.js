@@ -46,8 +46,28 @@ function settingsReducer(state = [], action) {
 
 let store;
 
+const initializeUndefinedSettings = (persistedState) => {
+    let settings = persistedState.settingsReducer;
+    if (settings === undefined) {
+        settings = {sortProperty: "name", sortOrder: "ascending", displayUnits: "imperial"}
+    }
+    else {
+        if (settings.sortProperty === undefined) {
+            settings.sortProperty = "name";
+        }
+        if (settings.sortOrder === undefined) {
+            settings.sortOrder = "ascending";
+        }
+        if (settings.displayUnits === undefined) {
+            settings.displayUnits = "imperial";
+        }
+    }
+    persistedState.settingsReducer = settings;
+}
+
 export const loadPersistedState = () => {
     const persistedState = loadState();
+    initializeUndefinedSettings(persistedState);
     const reducer = combineReducers({ placeReducer, settingsReducer });
     store = createStore(reducer, persistedState);
     store.subscribe(() => {
