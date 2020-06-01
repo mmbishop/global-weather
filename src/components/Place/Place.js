@@ -29,10 +29,10 @@ const Place = ({name, adminLevel1, country, weatherData, displayUnits, onPlaceRe
                                  onMapRequested={() => onWeatherMapRequested(name, adminLevel1, country)}/>
                 )}
                 <Row>
-                    <Col xs={8} md={5} md-offset={1} xs-offset={0}>
+                    <Col xs={8} md={7} md-offset={1} xs-offset={0}>
                         <PlaceName name={name} adminLevel1={adminLevel1} country={country}/>
                     </Col>
-                    <Col xs={2} md={6}>
+                    <Col xs={2} md={5}>
                         <Temperature value={roundedTemperature} displayUnits={displayUnits}/>
                     </Col>
                 </Row>

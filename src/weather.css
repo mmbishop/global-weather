@@ -81,10 +81,9 @@ body {
 
 .weather {
   color: white;
-  width: 30%;
   text-align: right;
   font-size: 50pt;
-  padding: 8px 30px 0 0;
+  padding: 8px 0 0 0;
   float: right;
 }
 
@@ -202,12 +201,13 @@ body {
 
 .weather-icon {
   position: relative;
-  top: -48px;
+  left: 20px;
+  top: -35px;
 }
 
 .hourly-weather-icon {
   position: relative;
-  top: -10px;
+  top: 10px;
 }
 
 .weather-menu-button {
@@ -294,7 +294,7 @@ body {
   }
 
   .weather-icon {
-    top: -40px;
+    top: -10px;
   }
 
   .daily-temperature {
