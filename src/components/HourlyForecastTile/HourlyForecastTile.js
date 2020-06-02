@@ -1,5 +1,5 @@
 import React from 'react';
-import {getBackgroundColor} from "../../services/ui";
+import {getPlaceTileClassName} from "../../services/ui";
 import Temperature from "../Temperature";
 import Conditions from "../Conditions";
 import WeatherIcon from "../WeatherIcon";
@@ -12,7 +12,7 @@ const HourlyForecastTile = ({time, weatherData, displayUnits}) => {
     const roundedTemperature = Math.round(weatherData.temperature);
     const roundedFeelsLike = Math.round(weatherData.feelsLike);
     const roundedWindSpeed = Math.round(weatherData.windSpeed);
-    const temperatureColor = getBackgroundColor(roundedTemperature, displayUnits);
+    const temperatureColor = getPlaceTileClassName(roundedTemperature, displayUnits);
 
     return (
         <Container className={temperatureColor}>

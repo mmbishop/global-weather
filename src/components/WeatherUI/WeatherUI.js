@@ -98,7 +98,7 @@ const WeatherUI = () => {
             .then((values) => setPlaces(values.flat()));
 
         const interval = setInterval(() => {
-            Promise.all(getPlaces().map(place => getWeather(place.lat, place.lng, displayUnits).then(weather => createWeatherObject(place, weather))))
+            Promise.all(getPlaces().map(place => getWeather(place.lat, place.lng, getSettings().displayUnits).then(weather => createWeatherObject(place, weather))))
                 .then((values) => setPlaces(values.flat()));
         }, 600000);
         return () => clearInterval(interval);
