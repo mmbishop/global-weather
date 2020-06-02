@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import {Container} from "react-bootstrap";
 import { map } from 'lodash/fp';
 import Place from '../Place';
-import findPlace from "../../services/googleMaps/findPlace";
+import {findPlace} from "../../services/googleMaps";
 import { getWeather, getForecast } from "../../services/weather";
 import Row from "react-bootstrap/Row";
 import Search from "../Search";

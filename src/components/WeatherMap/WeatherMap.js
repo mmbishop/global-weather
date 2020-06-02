@@ -8,6 +8,8 @@ import ModalBody from "react-bootstrap/ModalBody";
 import ModalFooter from "react-bootstrap/ModalFooter";
 import {Button} from "react-bootstrap";
 import Legend from "./Legend";
+import {getMapAttribution, getMapTileUrl} from "../../services/googleMaps";
+import {getWeatherMapAttribution, getWeatherMapTileUrl} from "../../services/weather";
 
 const WeatherMap = ({show, placeName, adminLevel1, country, lat, lng, onClose}) => {
     const position = [lat, lng];
@@ -18,10 +20,8 @@ const WeatherMap = ({show, placeName, adminLevel1, country, lat, lng, onClose}) 
             </ModalHeader>
             <ModalBody>
                 <Map id={"weather-map"} center={position} zoom={11}>
-                    <TileLayer url={`https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=${process.env.REACT_APP_GOOGLE_MAPS_CLIENT_ID}`}
-                               attribution={"&copy; Google Maps"}/>
-                    <TileLayer url={`https://{s}.tile.openweathermap.org/map/precipitation/{z}/{x}/{y}.png?appid=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`}
-                               opacity={0.6} attribution={"&copy; OpenWeatherMap"}/>
+                    <TileLayer url={getMapTileUrl()} attribution={getMapAttribution()}/>
+                    <TileLayer url={getWeatherMapTileUrl()} opacity={0.6} attribution={getWeatherMapAttribution()}/>
                     <Legend/>
                 </Map>
             </ModalBody>
