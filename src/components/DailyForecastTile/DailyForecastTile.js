@@ -2,7 +2,7 @@ import React from "react";
 import Moment from "react-moment";
 import WeatherIcon from "../WeatherIcon";
 import Temperature from "../Temperature";
-import {getBackgroundColor} from "../../services/ui";
+import {getPlaceTileClassName} from "../../services/ui";
 import Conditions from "../Conditions";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -13,8 +13,8 @@ const DailyForecastTile = ({time, weatherData, displayUnits}) => {
     const roundedLowTemperature = Math.round(weatherData.lowTemperature);
     const roundedFeelsLike = Math.round(weatherData.feelsLike);
     const roundedWindSpeed = Math.round(weatherData.windSpeed);
-    const highTemperatureColor = getBackgroundColor(roundedHighTemperature, displayUnits);
-    const lowTemperatureColor = getBackgroundColor(roundedLowTemperature, displayUnits);
+    const highTemperatureColor = getPlaceTileClassName(roundedHighTemperature, displayUnits);
+    const lowTemperatureColor = getPlaceTileClassName(roundedLowTemperature, displayUnits);
 
     return (
         <Container className={"border-bottom"}>

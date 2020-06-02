@@ -6,7 +6,7 @@ import PlaceRemoveButton from "../PlaceRemoveButton";
 import Temperature from "../Temperature";
 import WeatherMenu from "../WeatherMenu/WeatherMenu";
 import WeatherIcon from "../WeatherIcon";
-import {getBackgroundColor} from "../../services/ui";
+import {getPlaceTileClassName} from "../../services/ui";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
@@ -17,7 +17,7 @@ const Place = ({name, adminLevel1, country, weatherData, displayUnits, onPlaceRe
     const roundedWindSpeed = Math.round(weatherData.windSpeed);
 
     return (
-        <Col md={6} className={getBackgroundColor(roundedTemperature, displayUnits)}
+        <Col md={6} className={getPlaceTileClassName(weatherData.temperature, displayUnits)}
              onMouseEnter={() => setHasFocus(true)}
              onMouseLeave={() => setHasFocus(false)}>
             <Container>
