@@ -124,6 +124,10 @@ const WeatherUI = () => {
                                                                onWeatherMapRequested={(placeName, adminLevel1, country) => showWeatherMap(placeName, adminLevel1, country)}/>)(getSortedPlaces(places, sortProperty, sortOrder))}
                 </Row>
             </Container>
+            <div className={"attribution-footer"}>
+                Powered by <a href={"http://openweathermap.org"}>OpenWeatherMap</a>, <a href={"http://maps.google.com"}>Google Maps</a>,&nbsp;
+                <a href={"https://www.deviantart.com/d3stroy/art/SILq-Weather-Icons-356609017"}>SILq Weather Icons</a>
+            </div>
             <SettingsDialog show={showSettings}
                             onSettingsSaved={(sortProperty, sortOrder, oldDisplayUnits, newDisplayUnits) => updateSettings(sortProperty, sortOrder, oldDisplayUnits, newDisplayUnits)}
                             onClose={() => setShowSettings(false)}
