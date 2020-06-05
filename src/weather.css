@@ -290,7 +290,7 @@ body {
   }
 
   .weather {
-    padding: 0px 30px 0 0;
+    padding: 0 0 0 0;
   }
 
   .details {
@@ -302,7 +302,8 @@ body {
   }
 
   .weather-icon {
-    top: -10px;
+    top: -25px;
+    left: -1px;
   }
 
   .daily-temperature {
