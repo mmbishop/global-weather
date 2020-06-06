@@ -278,10 +278,12 @@ body {
 
 .attribution-footer {
   position: fixed;
-  width: 100%;
+  left: 40%;
+  width: 20%;
   bottom: 0;
   text-align: center;
   font-size: 12px;
+  background-color: #EEEEEE;
 }
 
 @media screen and (max-width: 576px) {
