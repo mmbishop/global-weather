@@ -30,10 +30,13 @@ window.fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${placeN
                 let addressComponentType = result.results[0].address_components[i].types[0];
                 if (addressComponentType === "locality" || addressComponentType === "colloquial_area") {
                     name = result.results[0].address_components[i].long_name;
-                } else if (addressComponentType === "administrative_area_level_1") {
+                } else if (addressComponentType === "adminAistrative_area_level_1") {
                     adminLevel1 = result.results[0].address_components[i].short_name;
                 } else if (addressComponentType === "country") {
                     country = result.results[0].address_components[i].short_name;
+                    if (! name) {
+                        name = result.results[0].address_components[i].long_name;
+                    }
                 }
             }
             if (!name) {
