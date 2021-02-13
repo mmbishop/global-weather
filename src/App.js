@@ -16,17 +16,45 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //</editor-fold>
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './weather.css';
-import WeatherUI from "./components/WeatherUI";
+import Routes from "./Routes";
+import { AppContext } from "./libs/contextLib";
+import { Auth } from "aws-amplify";
 
 function App() {
-  return (
-    <div className="App">
-        <WeatherUI/>
-    </div>
-  );
+
+    const [isAuthenticating, setIsAuthenticating] = useState(true);
+    const [isAuthenticated, userHasAuthenticated] = useState(false);
+
+    useEffect(() => {
+        onLoad();
+    }, []);
+
+    async function onLoad() {
+        try {
+            await Auth.currentSession();
+            userHasAuthenticated(true);
+        }
+        catch (e) {
+            if (e !== 'No current user') {
+                alert(e);
+            }
+        }
+
+        setIsAuthenticating(false);
+    }
+
+    return (
+        !isAuthenticating && (
+            <div className="App container py-3">
+                <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+                    <Routes/>
+                </AppContext.Provider>
+            </div>
+        )
+    );
 }
 
 export default App;

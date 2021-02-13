@@ -28,7 +28,7 @@ const handleKeyPress = (e, onChange) => {
 
 const Search = ({onChange}) => {
     return (
-        <Col xs={10} md={11} className="add-city">
+        <Col xs={9} md={10} className="add-city">
             <input placeholder="City or place name" autoComplete="off" onKeyDown={(e) => handleKeyPress(e, onChange)}/>
         </Col>
     );

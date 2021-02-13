@@ -32,6 +32,11 @@ import ForecastDialog from "../ForecastDialog/ForecastDialog";
 import WeatherMap from "../WeatherMap";
 import {deletePlace, getPlaces, getSettings, loadPersistedState, savePlace, saveSettings} from "../../services/persistence";
 import {getSortedPlaces} from "../../services/util";
+import Nav from "react-bootstrap/Nav";
+import {LinkContainer} from "react-router-bootstrap";
+import {Auth} from "aws-amplify";
+import {useHistory} from "react-router";
+import { useAppContext} from "../../libs/contextLib";
 
 loadPersistedState();
 
@@ -70,6 +75,7 @@ const useWeatherPlaces = () => {
 }
 
 const WeatherUI = () => {
+    const history = useHistory();
     const [places, setPlaces, addPlace, removePlace] = useWeatherPlaces();
     const [search, setSearch] = useState("");
     const [forecastPlace, setForecastPlace] = useState({});
@@ -80,6 +86,7 @@ const WeatherUI = () => {
     const [sortProperty, setSortProperty] = useState(settings.sortProperty);
     const [sortOrder, setSortOrder] = useState(settings.sortOrder);
     const [displayUnits, setDisplayUnits] = useState(settings.displayUnits);
+    const { userHasAuthenticated } = useAppContext();
 
     const updateSettings = (sortProperty, sortOrder, oldDisplayUnits, newDisplayUnits) => {
         setSortProperty(sortProperty);
@@ -111,6 +118,14 @@ const WeatherUI = () => {
         setShowMap(true);
     }
 
+    function handleLogout() {
+        Auth.signOut()
+            .then(() => {
+                userHasAuthenticated(false);
+                history.push("/login");
+            });
+    }
+
     useEffect(() => {
         Promise.all(getPlaces().map(place => getWeather(place.lat, place.lng, displayUnits).then(weather => createWeatherObject(place, weather))))
             .then((values) => setPlaces(values.flat()));
@@ -132,6 +147,7 @@ const WeatherUI = () => {
                     <Row>
                         <Search onChange={v => setSearch(v)}/>
                         <SettingsButton onSettingsRequested={() => setShowSettings(true)}/>
+                        <Nav.Link className="logout-button" onClick={handleLogout}>Logout</Nav.Link>
                     </Row>
                 </form>
                 <Row id={"locations"}>
