@@ -304,6 +304,10 @@ body {
   background-color: #EEEEEE;
 }
 
+.logout-button {
+  padding-top: 47px;
+}
+
 @media screen and (max-width: 576px) {
   .city {
     padding: 15px 0 0 0;
