@@ -18,14 +18,30 @@
 
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownToggle from "react-bootstrap/DropdownToggle";
+import DropdownMenu from "react-bootstrap/DropdownMenu";
+import DropdownItem from "react-bootstrap/DropdownItem";
 import settingsIconImage from "../../images/gear.png";
 import React from "react";
 
-const SettingsButton = ({onSettingsRequested}) => {
+const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+    <Col xs={3} md={2}>
+        <a href="" ref={ref} onClick={e => {e.preventDefault(); onClick(e)}}>
+            <Image className="settings-icon" src={settingsIconImage} alt="SettingsButton"/>
+        </a>
+    </Col>
+));
+
+const SettingsButton = ({onSettingsRequested, handleLogout}) => {
     return (
-        <Col xs={2} md={1}>
-            <Image className="settings-icon" src={settingsIconImage} alt="SettingsButton" onClick={onSettingsRequested}/>
-        </Col>
+        <Dropdown drop="down">
+            <DropdownToggle as={CustomToggle} id="dropdown-custom-components"/>
+            <DropdownMenu className={"weather-menu"}>
+                <DropdownItem className={"weather-menu-item"} onClick={onSettingsRequested}>Settings</DropdownItem>
+                <DropdownItem className={"weather-menu-item"} onClick={handleLogout}>Logout</DropdownItem>
+            </DropdownMenu>
+        </Dropdown>
     );
 }
 

@@ -37,6 +37,7 @@ import {LinkContainer} from "react-router-bootstrap";
 import {Auth} from "aws-amplify";
 import {useHistory} from "react-router";
 import { useAppContext} from "../../libs/contextLib";
+import Button from "react-bootstrap/Button";
 
 loadPersistedState();
 
@@ -146,8 +147,7 @@ const WeatherUI = () => {
                 }}>
                     <Row>
                         <Search onChange={v => setSearch(v)}/>
-                        <SettingsButton onSettingsRequested={() => setShowSettings(true)}/>
-                        <Nav.Link className="logout-button" onClick={handleLogout}>Logout</Nav.Link>
+                        <SettingsButton onSettingsRequested={() => setShowSettings(true)} handleLogout={() => handleLogout()}/>
                     </Row>
                 </form>
                 <Row id={"locations"}>

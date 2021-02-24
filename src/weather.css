@@ -305,7 +305,9 @@ body {
 }
 
 .logout-button {
-  padding-top: 47px;
+  width: 75px;
+  height: 35px;
+  margin-top: 40px;
 }
 
 @media screen and (max-width: 576px) {
