@@ -21,7 +21,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './weather.css';
 import Routes from "./Routes";
 import { AppContext } from "./libs/contextLib";
-import { Auth } from "aws-amplify";
+import {Amplify, Auth} from "aws-amplify";
 
 function App() {
 

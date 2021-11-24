@@ -6,6 +6,7 @@ import { useAppContext} from "../../libs/contextLib";
 import { useFormFields} from "../../libs/hooksLib";
 import "./Login.css";
 import {useHistory} from "react-router";
+import {Link} from "react-router-dom";
 
 export default function Login() {
     const history = useHistory();
@@ -40,6 +41,7 @@ export default function Login() {
                     <Form.Label>Password</Form.Label>
                     <Form.Control type="password" value={fields.password} onChange={handleFieldChange}/>
                 </Form.Group>
+                <Link to="/login/reset">Forgot password?</Link>
                 <Button block size="lg" type="submit" disabled={! formIsValid()}>Login</Button>
             </Form>
         </div>
