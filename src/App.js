@@ -48,7 +48,7 @@ function App() {
 
     return (
         !isAuthenticating && (
-            <div className="App container py-3">
+            <div className="App py-3">
                 <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
                     <Routes/>
                 </AppContext.Provider>

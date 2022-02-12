@@ -35,7 +35,7 @@ const Place = ({name, adminLevel1, country, weatherData, displayUnits, onPlaceRe
     const roundedWindSpeed = Math.round(weatherData.windSpeed);
 
     return (
-        <Col md={6} className={getPlaceTileClassName(weatherData.temperature, displayUnits)}
+        <Col xs={6} sm={6} md={6} lg={6} xl={6} className={getPlaceTileClassName(weatherData.temperature, displayUnits)}
              onMouseEnter={() => setHasFocus(true)}
              onMouseLeave={() => setHasFocus(false)}>
             <Container>
@@ -47,10 +47,10 @@ const Place = ({name, adminLevel1, country, weatherData, displayUnits, onPlaceRe
                                  onMapRequested={() => onWeatherMapRequested(name, adminLevel1, country)}/>
                 )}
                 <Row>
-                    <Col xs={10} md={7} md-offset={1} xs-offset={0}>
+                    <Col xs={10} md={8} md-offset={1} xs-offset={0}>
                         <PlaceName name={name} adminLevel1={adminLevel1} country={country}/>
                     </Col>
-                    <Col xs={2} md={5}>
+                    <Col xs={2} md={4}>
                         <Temperature value={roundedTemperature} displayUnits={displayUnits}/>
                     </Col>
                 </Row>

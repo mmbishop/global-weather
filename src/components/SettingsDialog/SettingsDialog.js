@@ -47,20 +47,20 @@ const SettingsDialog = ({show, onSettingsSaved, onClose, currentSort, currentSor
                 </select>
                 &nbsp;&nbsp;
                 <input type={"radio"} id={"ascending"} name={"sortOrder"} value={"ascending"} checked={sortOrder === "ascending"}
-                        onChange={() => setSortOrder("ascending")}/>
+                        onChange={() => setSortOrder("ascending")}/>&nbsp;
                 <label htmlFor={"ascending"}>Ascending</label>
                 &nbsp;
                 <input type={"radio"} id={"descending"} name={"sortOrder"} value={"descending"} checked={sortOrder === "descending"}
-                        onChange={() => setSortOrder("descending")}/>
+                        onChange={() => setSortOrder("descending")}/>&nbsp;
                 <label htmlFor={"descending"}>Descending</label>
                 <br/>
                 <label>Display units:</label>&nbsp;&nbsp;
                 <input type={"radio"} id={"imperial"} name={currentDisplayUnits} value={"imperial"} checked={displayUnits === "imperial"}
-                        onChange={() => setDisplayUnits("imperial")}/>
+                        onChange={() => setDisplayUnits("imperial")}/>&nbsp;
                 <label htmlFor={"imperial"}>Imperial</label>
                 &nbsp;
                 <input type={"radio"} id={"metric"} name={currentDisplayUnits} value={"metric"} checked={displayUnits === "metric"}
-                        onChange={() => setDisplayUnits("metric")}/>
+                        onChange={() => setDisplayUnits("metric")}/>&nbsp;
                 <label htmlFor={"metric"}>Metric</label>
             </ModalBody>
             <ModalFooter>

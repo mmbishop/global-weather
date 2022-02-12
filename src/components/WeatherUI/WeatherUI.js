@@ -32,11 +32,11 @@ import ForecastDialog from "../ForecastDialog/ForecastDialog";
 import WeatherMap from "../WeatherMap";
 import {deletePlace, getPlaces, getSettings, loadPersistedState, savePlace, saveSettings} from "../../services/persistence";
 import {getSortedPlaces} from "../../services/util";
-import Nav from "react-bootstrap/Nav";
-import {LinkContainer} from "react-router-bootstrap";
 import {Auth} from "aws-amplify";
 import {useHistory} from "react-router";
 import { useAppContext} from "../../libs/contextLib";
+import logoutIconImage from "../../images/logout-icon.jpg"
+import Image from "react-bootstrap/Image";
 
 loadPersistedState();
 
@@ -139,7 +139,7 @@ const WeatherUI = () => {
 
     return (
         <div>
-            <Container>
+            <Container className="m-auto" style={{width:"70%"}} fluid={true}>
                 <form onSubmit={(e) => {
                     e.preventDefault();
                     addPlace(search, displayUnits)
@@ -147,7 +147,7 @@ const WeatherUI = () => {
                     <Row>
                         <Search onChange={v => setSearch(v)}/>
                         <SettingsButton onSettingsRequested={() => setShowSettings(true)}/>
-                        <Nav.Link className="logout-button" onClick={handleLogout}>Logout</Nav.Link>
+                        <Image className="logout-icon" src={logoutIconImage} alt="Logout" onClick={handleLogout}/>
                     </Row>
                 </form>
                 <Row id={"locations"}>
