@@ -56,7 +56,9 @@ const Place = ({name, adminLevel1, country, weatherData, displayUnits, onPlaceRe
                 </Row>
                 <Row>
                     <Col md={10} md-offset={1} xs={9} xs-offset={0}>
-                        <Conditions feelsLike={roundedFeelsLike} humidity={weatherData.humidity} windDirection={weatherData.windDirection} windSpeed={roundedWindSpeed} displayUnits={displayUnits}/>
+                        <Conditions feelsLike={roundedFeelsLike} humidity={weatherData.humidity} windDirection={weatherData.windDirection} windSpeed={roundedWindSpeed}
+                                    pressure={weatherData.pressure} sunrise={weatherData.sunrise} sunset={weatherData.sunset}
+                                    showSunriseAndSunset={true} displayUnits={displayUnits}/>
                     </Col>
                     <Col md={1} xs={3}>
                         {weatherData.icon !== undefined && (

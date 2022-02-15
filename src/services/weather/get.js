@@ -31,18 +31,25 @@ export default (lat, lng, displayUnits) => (
             const temperature = convertTemperature(owmResult.main.temp, "imperial", displayUnits);
             const feelsLike = convertTemperature(owmResult.main.feels_like, "imperial", displayUnits);
             const humidity = owmResult.main.humidity;
+            const pressure = owmResult.main.pressure;
             const windDirection = owmResult.wind.deg;
             const windSpeed = convertSpeed(owmResult.wind.speed, "imperial", displayUnits);
             const conditions = owmResult.weather[0].description;
             const icon = owmResult.weather[0].icon;
+            const localTimezoneOffset = new Date().getTimezoneOffset() * 60;
+            const sunrise = new Date((owmResult.sys.sunrise + owmResult.timezone + localTimezoneOffset) * 1000);
+            const sunset = new Date((owmResult.sys.sunset + owmResult.timezone + localTimezoneOffset) * 1000);
             return ({
                 temperature: temperature,
                 feelsLike: feelsLike,
                 humidity: humidity,
+                pressure: pressure,
                 windDirection: windDirection,
                 windSpeed: windSpeed,
                 conditions: conditions,
-                icon: icon
+                icon: icon,
+                sunrise: sunrise,
+                sunset: sunset
             });
         })
 );

@@ -87,7 +87,7 @@ body {
 
 .city {
   font-size: 20pt;
-  padding: 25px 0 0 0;
+  padding: 15px 0 0 0;
 }
 
 .city span {
@@ -101,7 +101,7 @@ body {
   color: white;
   text-align: right;
   font-size: 50pt;
-  padding: 8px 0 0 0;
+  padding: 0 0 0 0;
   float: right;
 }
 
@@ -110,7 +110,7 @@ body {
   text-align: right;
   font-size: 50pt;
   position: relative;
-  top: -10px;
+  top: -20px;
 }
 
 .daily-temperature {
@@ -163,6 +163,8 @@ body {
 }
 
 .details {
+  position: relative;
+  top: -10px;
   color: white;
   font-size: 16px;
   float: left;
@@ -173,7 +175,7 @@ body {
   font-size: 16px;
   float: left;
   position: relative;
-  top: -12px;
+  top: -32px;
 }
 
 .daily-details {
@@ -229,12 +231,12 @@ body {
 .weather-icon {
   position: relative;
   left: 20px;
-  top: -35px;
+  top: -27px;
 }
 
 .hourly-weather-icon {
   position: relative;
-  top: 10px;
+  top: 5px;
 }
 
 .weather-menu-button {

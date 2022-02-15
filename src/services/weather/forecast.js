@@ -30,6 +30,7 @@ export default (lat, lng, displayUnits) => (
                         temperature: convertTemperature(hour.temp, "imperial", displayUnits),
                         feelsLike: convertTemperature(hour.feels_like, "imperial", displayUnits),
                         humidity: hour.humidity,
+                        pressure: hour.pressure,
                         windSpeed: hour.wind_speed,
                         windDirection: hour.wind_deg,
                         conditions: hour.weather[0].description,
@@ -39,11 +40,12 @@ export default (lat, lng, displayUnits) => (
                 dailyForecast: owmResult.daily.map(day => {
                     return {
                         time: (day.dt + appliedTimezoneOffset) * 1000,
-                        sunrise: (day.sunrise + appliedTimezoneOffset) * 1000,
-                        sunset: (day.sunset + appliedTimezoneOffset) * 1000,
+                        sunrise: new Date((day.sunrise + appliedTimezoneOffset) * 1000),
+                        sunset: new Date((day.sunset + appliedTimezoneOffset) * 1000),
                         highTemperature: convertTemperature(day.temp.max, "imperial", displayUnits),
                         lowTemperature: convertTemperature(day.temp.min, "imperial", displayUnits),
                         humidity: day.humidity,
+                        pressure: day.pressure,
                         windSpeed: day.wind_speed,
                         windDirection: day.wind_deg,
                         conditions: day.weather[0].description,

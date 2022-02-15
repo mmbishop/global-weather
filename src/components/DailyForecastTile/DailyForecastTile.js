@@ -56,7 +56,8 @@ const DailyForecastTile = ({time, weatherData, displayUnits}) => {
             </Row>
             <Row>
                 <Col md={12}>
-                    <Conditions className={"daily-details"} feelsLike={roundedFeelsLike} humidity={weatherData.humidity} windDirection={weatherData.windDirection} windSpeed={roundedWindSpeed} displayUnits={displayUnits}/>
+                    <Conditions className={"daily-details"} feelsLike={roundedFeelsLike} humidity={weatherData.humidity} windDirection={weatherData.windDirection} windSpeed={roundedWindSpeed}
+                                pressure={weatherData.pressure} sunrise={weatherData.sunrise} sunset={weatherData.sunset} showSunriseAndSunset={true} displayUnits={displayUnits}/>
                 </Col>
             </Row>
         </Container>

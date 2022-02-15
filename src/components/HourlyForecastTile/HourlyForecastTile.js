@@ -51,7 +51,8 @@ const HourlyForecastTile = ({time, weatherData, displayUnits}) => {
             </Row>
             <Row>
                 <Col xs={12} md={12}>
-                    <Conditions className={"hourly-details"} feelsLike={roundedFeelsLike} humidity={weatherData.humidity} windDirection={weatherData.windDirection} windSpeed={roundedWindSpeed} displayUnits={displayUnits}/>
+                    <Conditions className={"hourly-details"} feelsLike={roundedFeelsLike} humidity={weatherData.humidity} windDirection={weatherData.windDirection} windSpeed={roundedWindSpeed}
+                                pressure={weatherData.pressure} showSunriseAndSunset={false} displayUnits={displayUnits}/>
                 </Col>
             </Row>
         </Container>

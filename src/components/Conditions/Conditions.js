@@ -19,13 +19,21 @@
 import React from "react";
 import {getDirectionString} from "../../services/ui";
 
-const Conditions = ({className = "details", feelsLike, humidity, windDirection, windSpeed, displayUnits}) => {
+const zeroPadded = (value) => {
+    return ("" + value).padStart(2, "0");
+}
+
+const Conditions = ({className = "details", feelsLike, humidity, windDirection, windSpeed, pressure, sunrise, sunset, showSunriseAndSunset = false, displayUnits}) => {
+    let sunriseString = "";
+    let sunsetString = "";
+    if (showSunriseAndSunset) {
+        sunriseString = sunrise ? `Sunrise: ${zeroPadded(sunrise.getHours())}:${zeroPadded(sunrise.getMinutes())}:${zeroPadded(sunrise.getSeconds())}` : "N/A";
+        sunsetString = sunset ? `Sunset: ${zeroPadded(sunset.getHours())}:${zeroPadded(sunset.getMinutes())}:${zeroPadded(sunset.getSeconds())}` : "N/A";
+    }
     return (
         <div className={className}>
-            { feelsLike !== undefined && !isNaN(feelsLike) ?
-                <span>Feels like: {feelsLike}°{displayUnits === "metric" ? "C" : "F"}&nbsp;&nbsp;Humidity: {humidity}%&nbsp;&nbsp;Wind: {getDirectionString(windDirection)} at {windSpeed} {displayUnits === "metric" ? "kph" : "mph"}</span>
-                : <span>Humidity: {humidity}%&nbsp;&nbsp;Wind: {getDirectionString(windDirection)} at {windSpeed} {displayUnits === "metric" ? "kph" : "mph"}</span>
-            }
+            <span>Feels like: {feelsLike}°{displayUnits === "metric" ? "C" : "F"}&nbsp;&nbsp;Humidity: {humidity}%&nbsp;&nbsp;Wind: {getDirectionString(windDirection)} at {windSpeed} {displayUnits === "metric" ? "kph" : "mph"}</span><br/>
+            <span>Pressure: {pressure} mb&nbsp;&nbsp;{sunriseString}&nbsp;&nbsp;{sunsetString}</span>
         </div>
     );
 }
