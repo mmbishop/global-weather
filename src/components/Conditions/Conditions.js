@@ -23,16 +23,27 @@ const zeroPadded = (value) => {
     return ("" + value).padStart(2, "0");
 }
 
-const Conditions = ({className = "details", feelsLike, humidity, windDirection, windSpeed, pressure, sunrise, sunset, showSunriseAndSunset = false, displayUnits}) => {
+const Conditions = ({className = "details", feelsLike, humidity, windDirection, windSpeed, pressure, sunrise, sunset, showSunriseAndSunset = false,
+                        showFeelsLike = true, displayUnits}) => {
+    let feelsLikeString = "";
     let sunriseString = "";
     let sunsetString = "";
     if (showSunriseAndSunset) {
-        sunriseString = sunrise ? `Sunrise: ${zeroPadded(sunrise.getHours())}:${zeroPadded(sunrise.getMinutes())}:${zeroPadded(sunrise.getSeconds())}` : "N/A";
-        sunsetString = sunset ? `Sunset: ${zeroPadded(sunset.getHours())}:${zeroPadded(sunset.getMinutes())}:${zeroPadded(sunset.getSeconds())}` : "N/A";
+        if (typeof sunrise === 'string' || sunrise instanceof String) {
+            sunrise = new Date(sunrise);
+        }
+        if (typeof sunset === 'string' || sunset instanceof String) {
+            sunset = new Date(sunset);
+        }
+        sunriseString = sunrise !== undefined ? `Sunrise: ${zeroPadded(sunrise.getHours())}:${zeroPadded(sunrise.getMinutes())}:${zeroPadded(sunrise.getSeconds())}` : "N/A";
+        sunsetString = sunset !== undefined ? `Sunset: ${zeroPadded(sunset.getHours())}:${zeroPadded(sunset.getMinutes())}:${zeroPadded(sunset.getSeconds())}` : "N/A";
+    }
+    if (showFeelsLike) {
+        feelsLikeString = `Feels like: ${feelsLike}°${displayUnits === "metric" ? "C" : "F"}\xa0\xa0`;
     }
     return (
         <div className={className}>
-            <span>Feels like: {feelsLike}°{displayUnits === "metric" ? "C" : "F"}&nbsp;&nbsp;Humidity: {humidity}%&nbsp;&nbsp;Wind: {getDirectionString(windDirection)} at {windSpeed} {displayUnits === "metric" ? "kph" : "mph"}</span><br/>
+            <span>{feelsLikeString}Humidity: {humidity}%&nbsp;&nbsp;Wind: {getDirectionString(windDirection)} at {windSpeed} {displayUnits === "metric" ? "kph" : "mph"}</span><br/>
             <span>Pressure: {pressure} mb&nbsp;&nbsp;{sunriseString}&nbsp;&nbsp;{sunsetString}</span>
         </div>
     );
