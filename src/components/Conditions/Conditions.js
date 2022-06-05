@@ -24,10 +24,11 @@ const zeroPadded = (value) => {
 }
 
 const Conditions = ({className = "details", feelsLike, humidity, windDirection, windSpeed, pressure, sunrise, sunset, showSunriseAndSunset = false,
-                        showFeelsLike = true, displayUnits}) => {
+                        showFeelsLike = true, displayUnits, showCurrentTime  = false, currentTime}) => {
     let feelsLikeString = "";
     let sunriseString = "";
     let sunsetString = "";
+    let currentTimeString = "";
     if (showSunriseAndSunset) {
         if (typeof sunrise === 'string' || sunrise instanceof String) {
             sunrise = new Date(sunrise);
@@ -41,9 +42,13 @@ const Conditions = ({className = "details", feelsLike, humidity, windDirection, 
     if (showFeelsLike) {
         feelsLikeString = `Feels like: ${feelsLike}°${displayUnits === "metric" ? "C" : "F"}\xa0\xa0`;
     }
+    if (showCurrentTime) {
+        currentTime = new Date(currentTime);
+        currentTimeString = `Time: ${zeroPadded(currentTime.getHours())}:${zeroPadded(currentTime.getMinutes())}\xa0\xa0`;
+    }
     return (
         <div className={className}>
-            <span>{feelsLikeString}Humidity: {humidity}%&nbsp;&nbsp;Wind: {getDirectionString(windDirection)} at {windSpeed} {displayUnits === "metric" ? "kph" : "mph"}</span><br/>
+            <span>{currentTimeString}{feelsLikeString}Humidity: {humidity}%&nbsp;&nbsp;Wind: {getDirectionString(windDirection)} at {windSpeed} {displayUnits === "metric" ? "kph" : "mph"}</span><br/>
             <span>Pressure: {pressure} mb&nbsp;&nbsp;{sunriseString}&nbsp;&nbsp;{sunsetString}</span>
         </div>
     );

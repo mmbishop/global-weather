@@ -41,11 +41,12 @@ import Image from "react-bootstrap/Image";
 loadPersistedState();
 
 const createWeatherObject = (place, weather) => {
-    console.log(`createWeatherObject(${place.name}, ${weather.temperature}, ${weather.icon})`);
+    console.log(`createWeatherObject(${place.name}, ${weather.temperature}, ${weather.icon}`);
     return ([{
         name: place.name, adminLevel1: place.adminLevel1, country: place.country, lat: place.lat, lng: place.lng, temperature: weather.temperature,
         conditions: weather.conditions, humidity: weather.humidity, windDirection: weather.windDirection, windSpeed: weather.windSpeed,
-        feelsLike: weather.feelsLike, pressure: weather.pressure, sunrise: weather.sunrise, sunset: weather.sunset, icon: weather.icon
+        feelsLike: weather.feelsLike, pressure: weather.pressure, sunrise: weather.sunrise, sunset: weather.sunset, icon: weather.icon,
+        currentTime: weather.currentTime
     }]);
 }
 

@@ -39,6 +39,7 @@ export default (lat, lng, displayUnits) => (
             const localTimezoneOffset = new Date().getTimezoneOffset() * 60;
             const sunrise = new Date((owmResult.sys.sunrise + owmResult.timezone + localTimezoneOffset) * 1000);
             const sunset = new Date((owmResult.sys.sunset + owmResult.timezone + localTimezoneOffset) * 1000);
+            const currentTime = new Date((owmResult.dt + owmResult.timezone + localTimezoneOffset) * 1000);
             return ({
                 temperature: temperature,
                 feelsLike: feelsLike,
@@ -49,7 +50,8 @@ export default (lat, lng, displayUnits) => (
                 conditions: conditions,
                 icon: icon,
                 sunrise: sunrise,
-                sunset: sunset
+                sunset: sunset,
+                currentTime: currentTime
             });
         })
 );
