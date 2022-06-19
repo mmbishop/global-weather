@@ -34,6 +34,9 @@ window.fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${placeN
                     adminLevel1 = result.results[0].address_components[i].short_name;
                 } else if (addressComponentType === "country") {
                     country = result.results[0].address_components[i].short_name;
+                    if (!name) {
+                        name = result.results[0].address_components[i].long_name;
+                    }
                 }
             }
             if (!name) {
