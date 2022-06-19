@@ -87,7 +87,7 @@ body {
 
 .city {
   font-size: 20pt;
-  padding: 15px 0 0 0;
+  padding: 10px 0 0 0;
 }
 
 .city span {
@@ -164,7 +164,7 @@ body {
 
 .details {
   position: relative;
-  top: -10px;
+  top: -15px;
   color: white;
   font-size: 16px;
   float: left;
