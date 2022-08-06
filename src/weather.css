@@ -28,7 +28,7 @@ body {
 
 #locations div {
   color: #FFF;
-  font-family: 'Helvetica Neue', sans-serif;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
 }
 
 .hot, .warm, .cool, .cold, .frigid {
