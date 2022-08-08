@@ -17,7 +17,7 @@
 //</editor-fold>
 
 import React, {useEffect} from "react";
-import {withLeaflet} from "react-leaflet";
+import {useMap} from "react-leaflet";
 import L from "leaflet";
 
 const Legend = (props) => {
@@ -50,4 +50,5 @@ const Legend = (props) => {
     return <div/>;
 }
 
-export default withLeaflet(Legend);
+// eslint-disable-next-line react-hooks/rules-of-hooks
+export default Legend;

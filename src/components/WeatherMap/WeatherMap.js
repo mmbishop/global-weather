@@ -16,7 +16,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //</editor-fold>
 
-import {Map, TileLayer} from "react-leaflet";
+import {MapContainer, TileLayer} from "react-leaflet";
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import ModalHeader from "react-bootstrap/ModalHeader";
@@ -37,11 +37,11 @@ const WeatherMap = ({show, placeName, adminLevel1, country, lat, lng, onClose}) 
                 <ModalTitle>{`Weather map for ${placeName}, ${getLocationHierarchy(adminLevel1, country)}`}</ModalTitle>
             </ModalHeader>
             <ModalBody>
-                <Map id={"weather-map"} center={position} zoom={11}>
+                <MapContainer id={"weather-map"} center={position} zoom={11}>
                     <TileLayer url={getMapTileUrl()} attribution={getMapAttribution()}/>
                     <TileLayer url={getWeatherMapTileUrl()} opacity={0.6} attribution={getWeatherMapAttribution()}/>
                     <Legend/>
-                </Map>
+                </MapContainer>
             </ModalBody>
             <ModalFooter>
                 <Button variant={"primary"} onClick={onClose}>Close</Button>

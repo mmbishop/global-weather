@@ -205,6 +205,7 @@ body {
   top: 35px;
   float: right;
   background-color: #444444;
+  padding: 0;
 }
 
 #settings {

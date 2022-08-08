@@ -33,7 +33,7 @@ import WeatherMap from "../WeatherMap";
 import {deletePlace, getPlaces, getSettings, loadPersistedState, savePlace, saveSettings} from "../../services/persistence";
 import {getSortedPlaces} from "../../services/util";
 import {Auth} from "aws-amplify";
-import {useHistory} from "react-router";
+import {useNavigate} from "react-router";
 import { useAppContext} from "../../libs/contextLib";
 import logoutIconImage from "../../images/logout-icon.jpg"
 import Image from "react-bootstrap/Image";
@@ -76,7 +76,7 @@ const useWeatherPlaces = () => {
 }
 
 const WeatherUI = () => {
-    const history = useHistory();
+    const history = useNavigate();
     const [places, setPlaces, addPlace, removePlace] = useWeatherPlaces();
     const [search, setSearch] = useState("");
     const [forecastPlace, setForecastPlace] = useState({});

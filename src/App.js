@@ -19,7 +19,7 @@
 import React, {useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './weather.css';
-import Routes from "./Routes";
+import Router from "./Router";
 import { AppContext } from "./libs/contextLib";
 import {Amplify, Auth} from "aws-amplify";
 
@@ -50,7 +50,7 @@ function App() {
         !isAuthenticating && (
             <div className="App py-3">
                 <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
-                    <Routes/>
+                    <Router/>
                 </AppContext.Provider>
             </div>
         )

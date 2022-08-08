@@ -5,11 +5,11 @@ import { Auth } from "aws-amplify";
 import { useAppContext} from "../../libs/contextLib";
 import { useFormFields} from "../../libs/hooksLib";
 import "./Login.css";
-import {useHistory} from "react-router";
+import {useNavigate} from "react-router";
 import {Link} from "react-router-dom";
 
 export default function Login() {
-    const history = useHistory();
+    const history = useNavigate();
     const { userHasAuthenticated } = useAppContext();
     const [fields, handleFieldChange] = useFormFields({
         username: "",
