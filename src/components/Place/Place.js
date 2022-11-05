@@ -27,6 +27,7 @@ import WeatherIcon from "../WeatherIcon";
 import {getPlaceTileClassName} from "../../services/ui";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+import {Button, Card, CardActions, CardContent, CardHeader} from "@mui/material";
 
 const Place = ({name, adminLevel1, country, weatherData, displayUnits, onPlaceRemoved, onForecastRequested, onWeatherMapRequested}) => {
     const [hasFocus, setHasFocus] = useState(false);
@@ -35,39 +36,70 @@ const Place = ({name, adminLevel1, country, weatherData, displayUnits, onPlaceRe
     const roundedWindSpeed = Math.round(weatherData.windSpeed);
 
     return (
-        <Col xs={6} sm={6} md={6} lg={6} xl={6} className={getPlaceTileClassName(weatherData.temperature, displayUnits)}
-             onMouseEnter={() => setHasFocus(true)}
-             onMouseLeave={() => setHasFocus(false)}>
+        <Card className={getPlaceTileClassName(weatherData.temperature, displayUnits)}>
+          <CardHeader>
+            <PlaceName name={name} adminLevel1={adminLevel1} country={country}/>
+          </CardHeader>
+          <CardContent>
             <Container>
-                {hasFocus && (
-                    <PlaceRemoveButton onPlaceRemoved={() => onPlaceRemoved(name, adminLevel1, country)}/>
-                )}
-                {hasFocus && (
-                    <WeatherMenu onForecastRequested={() => onForecastRequested(name, adminLevel1, country)}
-                                 onMapRequested={() => onWeatherMapRequested(name, adminLevel1, country)}/>
-                )}
-                <Row>
-                    <Col xs={10} md={8} md-offset={1} xs-offset={0}>
-                        <PlaceName name={name} adminLevel1={adminLevel1} country={country}/>
-                    </Col>
-                    <Col xs={2} md={4}>
-                        <Temperature value={roundedTemperature} displayUnits={displayUnits}/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={10} md-offset={1} xs={9} xs-offset={0}>
-                        <Conditions feelsLike={roundedFeelsLike} humidity={weatherData.humidity} windDirection={weatherData.windDirection} windSpeed={roundedWindSpeed}
-                                    pressure={weatherData.pressure} sunrise={weatherData.sunrise} sunset={weatherData.sunset}
-                                    showSunriseAndSunset={true} displayUnits={displayUnits} showCurrentTime={true} currentTime={weatherData.currentTime}/>
-                    </Col>
-                    <Col md={1} xs={3}>
-                        {weatherData.icon !== undefined && (
-                            <WeatherIcon icon={weatherData.icon} description={weatherData.conditions}/>
-                        )}
-                    </Col>
-                </Row>
+              <Row>
+                <Col md={10} xs={8}>
+                  <Temperature value={roundedTemperature} displayUnits={displayUnits}/>
+                </Col>
+                <Col md={1} xs={3}>
+                  {weatherData.icon !== undefined && (
+                      <WeatherIcon icon={weatherData.icon} description={weatherData.conditions}/>
+                  )}
+                </Col>
+              </Row>
+              <Row>
+                <Col md={10} md-offset={1} xs={9} xs-offset={0}>
+                  <Conditions feelsLike={roundedFeelsLike} humidity={weatherData.humidity} windDirection={weatherData.windDirection} windSpeed={roundedWindSpeed}
+                              pressure={weatherData.pressure} sunrise={weatherData.sunrise} sunset={weatherData.sunset}
+                              showSunriseAndSunset={true} displayUnits={displayUnits} showCurrentTime={true} currentTime={weatherData.currentTime}/>
+                </Col>
+              </Row>
             </Container>
-        </Col>
+          </CardContent>
+          <CardActions>
+            <Button onClick={() => onPlaceRemoved(name, adminLevel1, country)}>REMOVE</Button>
+            <WeatherMenu onForecastRequested={() => onForecastRequested(name, adminLevel1, country)}
+                         onMapRequested={() => onWeatherMapRequested(name, adminLevel1, country)}/>
+          </CardActions>
+        </Card>
+        // <Col xs={6} sm={6} md={6} lg={6} xl={6} className={getPlaceTileClassName(weatherData.temperature, displayUnits)}
+        //      onMouseEnter={() => setHasFocus(true)}
+        //      onMouseLeave={() => setHasFocus(false)}>
+        //     <Container>
+        //         {hasFocus && (
+        //             <PlaceRemoveButton onPlaceRemoved={() => onPlaceRemoved(name, adminLevel1, country)}/>
+        //         )}
+        //         {hasFocus && (
+        //             <WeatherMenu onForecastRequested={() => onForecastRequested(name, adminLevel1, country)}
+        //                          onMapRequested={() => onWeatherMapRequested(name, adminLevel1, country)}/>
+        //         )}
+        //         <Row>
+        //             <Col xs={10} md={8} md-offset={1} xs-offset={0}>
+        //                 <PlaceName name={name} adminLevel1={adminLevel1} country={country}/>
+        //             </Col>
+        //             <Col xs={2} md={4}>
+        //                 <Temperature value={roundedTemperature} displayUnits={displayUnits}/>
+        //             </Col>
+        //         </Row>
+        //         <Row>
+        //             <Col md={10} md-offset={1} xs={9} xs-offset={0}>
+        //                 <Conditions feelsLike={roundedFeelsLike} humidity={weatherData.humidity} windDirection={weatherData.windDirection} windSpeed={roundedWindSpeed}
+        //                             pressure={weatherData.pressure} sunrise={weatherData.sunrise} sunset={weatherData.sunset}
+        //                             showSunriseAndSunset={true} displayUnits={displayUnits} showCurrentTime={true} currentTime={weatherData.currentTime}/>
+        //             </Col>
+        //             <Col md={1} xs={3}>
+        //                 {weatherData.icon !== undefined && (
+        //                     <WeatherIcon icon={weatherData.icon} description={weatherData.conditions}/>
+        //                 )}
+        //             </Col>
+        //         </Row>
+        //     </Container>
+        // </Col>
     );
 };
 
