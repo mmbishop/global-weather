@@ -35,7 +35,7 @@ import {getSortedPlaces} from "../../services/util";
 import {Auth} from "aws-amplify";
 import {useNavigate} from "react-router";
 import { useAppContext} from "../../libs/contextLib";
-import logoutIconImage from "../../images/logout-icon.jpg"
+import logoutIconImage from "../../images/logout-icon.png"
 import Image from "react-bootstrap/Image";
 
 loadPersistedState();
