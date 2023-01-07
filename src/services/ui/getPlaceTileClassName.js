@@ -23,23 +23,24 @@ export const getPlaceTileClassName = (currentTemp, displayUnits) => {
     if (displayUnits === "metric") {
         temp = convertTemperature(currentTemp, "metric", "imperial");
     }
+    let className = 'undefined-temp';
     let roundedTemp = Math.round(temp);
     if (roundedTemp >= 90.0) {
-        return "hot";
+        className = "hot";
     }
     else if (roundedTemp >= 70.0 && roundedTemp < 90.0) {
-        return "warm";
+        className = "warm";
     }
     else if (roundedTemp >= 40.0 && roundedTemp < 70.0) {
-        return "cool";
+        className = "cool";
     }
     else if (roundedTemp >= 0.0 && roundedTemp < 40.0) {
-        return "cold";
+        className = "cold";
     }
     else if (roundedTemp < 0.0) {
-        return "frigid";
+        className = "frigid";
     }
-    return "undefined-temp";
+    return className;
 }
 
 export default getPlaceTileClassName;

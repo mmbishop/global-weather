@@ -37,7 +37,7 @@ const Place = ({name, adminLevel1, country, weatherData, displayUnits, onPlaceRe
 
     return (
         <Card className={getPlaceTileClassName(weatherData.temperature, displayUnits)}>
-          <CardHeader>
+          <CardHeader className={getPlaceTileClassName(weatherData.temperature, displayUnits)}>
             <PlaceName name={name} adminLevel1={adminLevel1} country={country}/>
           </CardHeader>
           <CardContent>
