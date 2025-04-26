@@ -17,7 +17,7 @@
 //</editor-fold>
 
 export default (placeName) => (
-window.fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${placeName}&key=${process.env.REACT_APP_GOOGLE_MAPS_CLIENT_ID}`)
+window.fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${placeName}&key=your-key-here`)
     .then(res => res.json())
     .then((result) => {
         if (result.results && result.results.length > 0) {
