@@ -1,22 +1,51 @@
-export default (lat, lng) => (
-    window.fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=imperial&APPID=4a072a2d89070b207876f6f8a46ed21f`)
+//<editor-fold desc="Copyright (c) 2020 Michael Bishop">
+// global-weather
+// Copyright (c) 2020 Michael Bishop
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//</editor-fold>
+
+import { convertTemperature } from './converters';
+import { convertSpeed } from './converters';
+
+const getCurrentDate = () => {
+    return new Date();
+}
+
+export default (lat, lng, displayUnits) => (
+    window.fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=imperial&APPID=${process.env.REACT_APP_OPENWEATHERMAP_API_KEY}`)
         .then(res => res.json())
         .then((owmResult) => {
-            const temperature = Math.round(owmResult.main.temp);
-            const feelsLike = Math.round(owmResult.main.feels_like);
+            console.log(`${getCurrentDate()}: lat = ${lat}, lng = ${lng}, temp = ${owmResult.main.temp}`);
+            const temperature = convertTemperature(owmResult.main.temp, "imperial", displayUnits);
+            const feelsLike = convertTemperature(owmResult.main.feels_like, "imperial", displayUnits);
             const humidity = owmResult.main.humidity;
             const windDirection = owmResult.wind.deg;
-            const windSpeed = Math.round(owmResult.wind.speed);
-            const conditions = owmResult.weather[0].main;
+            const windSpeed = convertSpeed(owmResult.wind.speed, "imperial", displayUnits);
+            const conditions = owmResult.weather[0].description;
+            const icon = owmResult.weather[0].icon;
             return ({
-                temperature,
-                feelsLike,
-                humidity,
+                temperature: temperature,
+                feelsLike: feelsLike,
+                humidity: humidity,
                 windDirection: windDirection,
                 windSpeed: windSpeed,
-                conditions: conditions
+                conditions: conditions,
+                icon: icon
             });
-        }));
+        })
+);
 
 
 

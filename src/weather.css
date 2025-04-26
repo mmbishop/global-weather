@@ -1,3 +1,21 @@
+/*<editor-fold desc="Copyright (c) 2020 Michael Bishop">*/
+/*global-weather*/
+/*Copyright (c) 2020 Michael Bishop*/
+
+/*This program is free software: you can redistribute it and/or modify*/
+/*it under the terms of the GNU Affero General Public License as published by*/
+/*the Free Software Foundation, either version 3 of the License, or*/
+/*(at your option) any later version.*/
+
+/*This program is distributed in the hope that it will be useful,*/
+/*but WITHOUT ANY WARRANTY; without even the implied warranty of*/
+/*MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the*/
+/*GNU Affero General Public License for more details.*/
+
+/*You should have received a copy of the GNU Affero General Public License*/
+/*along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
+/*</editor-fold>*/
+
 body {
   background-color: #EEE;
   margin: 0;
@@ -12,74 +30,96 @@ body {
   color: #FFF;
   font-family: 'Helvetica Neue', sans-serif;
 }
-@media screen and (max-width: 400px) {
-  #locations div {
-    height: 200px;
-  }
-  .weather, .city {
-    display: block !important;
-    float: none !important;
-    width: 100% !important;
-    text-align: center !important;
-    padding: 0 !important;
-  }
-  .city {
-    padding: 35px 0 10px 0 !important;
-  }
-  .city span {
-    font-size: 10pt !important;
-  }
-  .weather {
-    padding: 0 0 0 28px !important;
-  }
-}
+
 .hot, .warm, .cool, .cold, .frigid {
   border-bottom: rgba(0, 0, 0, 0.1) 2px solid;
   border-left: rgba(0, 0, 0, 0.1) 2px solid;
   height: 140px;
 }
+
 .hot {
   background-color: #A32929;
 }
+
 .warm {
   background-color: #A36629;
 }
+
 .cold {
   background-color: #1F5C7A;
 }
+
 .cool {
   background-color: #5C99D6;
 }
+
 .frigid {
   background-color: #143352;
 }
+
 .undefined-temp {
   background-color: white;
 }
-.city, .weather {
-  display: inline-block;
-  float: left;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+
+.hot-foreground {
+  color: #A32929;
 }
+
+.warm-foreground {
+  color: #A36629;
+}
+
+.cold-foreground {
+  color: #1F5C7A;
+}
+
+.cool-foreground {
+  color: #5C99D6;
+}
+
+.frigid-foreground {
+  color: #143352;
+}
+
+.undefined-temp-foreground {
+  color: black;
+}
+
 .city {
-  width: 70%;
   font-size: 20pt;
-  padding: 25px 0 0 35px;
+  padding: 25px 0 0 0;
 }
+
 .city span {
   display: block;
   font-size: 14pt;
   opacity: 0.5;
   font-weight: 200;
 }
+
 .weather {
-  width: 30%;
+  color: white;
   text-align: right;
   font-size: 50pt;
-  padding: 8px 30px 0 0;
+  padding: 8px 0 0 0;
+  float: right;
 }
+
+.hourly-temperature {
+  color: white;
+  text-align: right;
+  font-size: 50pt;
+  position: relative;
+  top: -10px;
+}
+
+.daily-temperature {
+  text-align: right;
+  font-size: 50pt;
+  position: relative;
+  top: -10px;
+}
+
 .temp-unit {
   font-size: 18pt;
   line-height: 10pt;
@@ -87,6 +127,7 @@ body {
   padding: 0 0 0 5px;
   opacity: 0.5;
 }
+
 .feels-like {
   width: 115px;
   height: 20px;
@@ -98,13 +139,15 @@ body {
   left: -120px;
   top: 20px;
 }
+
 .add-city {
   padding: 35px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  background-color: white;
+  background-color: #EEE;
 }
+
 .add-city input {
   outline: none;
   padding: 10px;
@@ -120,11 +163,22 @@ body {
 }
 
 .details {
-  font-size: 12pt;
-  float: right;
-  padding: 0 65px 0 0;
+  color: white;
+  font-size: 16px;
+  float: left;
+}
+
+.hourly-details {
+  color: white;
+  font-size: 16px;
+  float: left;
   position: relative;
-  top: 6px;
+  top: -12px;
+}
+
+.daily-details {
+  color: black;
+  font-size: 12pt;
 }
 
 .close {
@@ -133,6 +187,7 @@ body {
   left: 5px;
   font-size: 12pt;
   color: white;
+  cursor: pointer;
 }
 
 .settings-icon {
@@ -161,3 +216,123 @@ body {
   text-align: center;
   float: none !important;
 }
+
+.weather-icon {
+  position: relative;
+  left: 20px;
+  top: -35px;
+}
+
+.hourly-weather-icon {
+  position: relative;
+  top: 10px;
+}
+
+.weather-menu-button {
+  position: absolute;
+  right: -30px;
+  color: white;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  opacity: 0.75;
+}
+
+.weather-menu-button:hover {
+  color: yellow;
+}
+
+.weather-menu-button:focus {
+  outline: none;
+}
+
+.weather-menu {
+  background-color: #EEE;
+}
+
+.weather-menu-item {
+  font-size: 14px;
+  background-color: #EEE;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.hourly-forecast-time {
+  color: white;
+  opacity: 0.75;
+}
+
+.daily-forecast-time {
+  color: black;
+  opacity: 0.75;
+}
+
+#weather-map {
+  width: 768px;
+  height: 500px;
+}
+
+.map-info {
+  padding: 6px 8px;
+  font: 12px/14px Arial, Helvetica, sans-serif;
+  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+.legend {
+  text-align: left;
+  line-height: 16px;
+  color: #555;
+}
+
+.legend span {
+  width: 16px;
+  height: 16px;
+  float: left;
+  margin-right: 8px;
+  opacity: 0.7;
+}
+
+.attribution-footer {
+  position: fixed;
+  left: 40%;
+  width: 20%;
+  bottom: 0;
+  text-align: center;
+  font-size: 12px;
+  background-color: #EEEEEE;
+}
+
+.logout-button {
+  padding-top: 47px;
+}
+
+@media screen and (max-width: 576px) {
+  .city {
+    padding: 15px 0 0 0;
+  }
+
+  .weather {
+    padding: 0 0 0 0;
+  }
+
+  .details {
+    font-size: 12px;
+  }
+
+  .hourly-details {
+    font-size: 11px;
+  }
+
+  .weather-icon {
+    top: -25px;
+    left: -1px;
+  }
+
+  .daily-temperature {
+    font-size: 40pt;
+    top: 0;
+  }
+}
+
