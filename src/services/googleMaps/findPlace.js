@@ -1,5 +1,5 @@
 export default (placeName) => (
-window.fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${placeName}&key=AIzaSyCUKrOabLGNtCQsV8cdqccjMMofHOZmoZs`)
+window.fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${placeName}&key=your-key-here`)
     .then(res => res.json())
     .then((result) => {
         if (result.results && result.results.length > 0) {
